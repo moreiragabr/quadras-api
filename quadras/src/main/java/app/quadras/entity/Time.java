@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Usuario {
+public class Time {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,25 +22,21 @@ public class Usuario {
 
     private String nome;
 
-    private String email;
+//    private TipoEsporte tipoEsporte;
 
-    @OneToMany(mappedBy = "presidente")
-    @JsonIgnoreProperties({"presidente", "jogadores"})
-    private List<Time> timesProprietarios;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"times", "timesProprietarios"})
+    private Usuario presidente;
 
-    @ManyToMany
-    @JoinTable(name = "times_jogador")
-    @JsonIgnoreProperties({"presidente", "jogadores"})
-    private List<Time> times;
+    @ManyToMany(mappedBy = "times", cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties({"times", "timesProprietarios"})
+    private List<Usuario> jogadores;
 
 //    @ManyToMany
-//    @JoinTable(name = "horario_usuario")
+//    @JoinTable(name = "time_horarios")
 //    private List<Horario> horariosCadastrados;
 
 //    @ManyToMany
-//    @JoinTable(name = "usuario_reservas")
+//    @JoinTable(name = "time_reserva")
 //    private List<Reserva> reservas;
-
-//    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL)
-//    private List<Quadra> quadraS;
 }

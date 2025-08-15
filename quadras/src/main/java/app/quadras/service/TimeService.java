@@ -1,0 +1,66 @@
+package app.quadras.service;
+
+import app.quadras.entity.Time;
+import app.quadras.entity.Usuario;
+import app.quadras.repository.TimeRepository;
+import app.quadras.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class TimeService {
+
+    private final TimeRepository timeRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public List<Time> findAll() {
+        return timeRepository.findAll();
+    }
+
+    public Time findById(Long id) {
+        return timeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public Time save(Time time) {
+        return timeRepository.save(time);
+    }
+
+    public void delete(Long id) {
+        Time time = findById(id);
+        timeRepository.delete(time);
+    }
+
+    public Time update(Long id, Time time) {
+        Time update = findById(id);
+        if (time.getNome() != null && !time.getNome().isBlank()) {
+            update.setNome(time.getNome());
+        }
+        if (time.getPresidente()!=null){
+            update.setPresidente(time.getPresidente());
+        }
+        if(time.getJogadores()!=null){
+            update.setJogadores(time.getJogadores());
+        }
+        return timeRepository.save(update);
+    }
+
+    @Transactional
+    public Time adicionarPresidente(Long idUsuario, Long idTime){
+        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
+        time.setPresidente(usuario);
+        return time;
+    }
+
+    @Transactional
+    public Time adicionarJogadores(List<Usuario> jogadores, Long idTime){
+        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
+        time.setJogadores(jogadores);
+        return time;
+    }
+}

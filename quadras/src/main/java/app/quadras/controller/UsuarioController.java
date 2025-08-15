@@ -1,5 +1,6 @@
 package app.quadras.controller;
 
+import app.quadras.entity.Time;
 import app.quadras.entity.Usuario;
 import app.quadras.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -66,4 +67,44 @@ public class UsuarioController {
         }
     }
 
+
+    @PutMapping("/adicionarTimeProprietario")
+    public ResponseEntity<Usuario> adicionarTimesProprietarios(@RequestParam Long idUsuario, @RequestParam Long idTime){
+        try {
+            var result = usuarioService.adicionarTimesProprietarios(idTime, idUsuario);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/adicionarTimeJogador")
+    public ResponseEntity<Usuario> adicionarTimesJogador(@RequestParam Long idUsuario, @RequestParam Long idTime){
+        try {
+            var result = usuarioService.adicionarTimesJogador(idTime, idUsuario);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/removerTimesProprietarios")
+    public ResponseEntity<Usuario> removerTimesProprietarios(@RequestParam Long idUsuario,@RequestParam Long idTime){
+        try {
+            var result = usuarioService.removerTimesProprietarios(idUsuario,idTime);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/removerTimesJogador")
+    public ResponseEntity<Usuario> removerTimesJogador(@RequestParam Long idUsuario,@RequestParam Long idTime){
+        try {
+            var result = usuarioService.removerTimesJogador(idUsuario,idTime);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
