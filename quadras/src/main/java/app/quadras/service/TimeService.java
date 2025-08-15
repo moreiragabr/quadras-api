@@ -1,11 +1,8 @@
 package app.quadras.service;
 
 import app.quadras.entity.Time;
-import app.quadras.entity.Usuario;
 import app.quadras.repository.TimeRepository;
-import app.quadras.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +13,6 @@ import java.util.List;
 public class TimeService {
 
     private final TimeRepository timeRepository;
-    private final UsuarioRepository usuarioRepository;
 
     public List<Time> findAll() {
         return timeRepository.findAll();
