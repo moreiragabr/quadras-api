@@ -48,19 +48,4 @@ public class TimeService {
         }
         return timeRepository.save(update);
     }
-
-    @Transactional
-    public Time adicionarPresidente(Long idUsuario, Long idTime){
-        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
-        time.setPresidente(usuario);
-        return time;
-    }
-
-    @Transactional
-    public Time adicionarJogadores(List<Usuario> jogadores, Long idTime){
-        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
-        time.setJogadores(jogadores);
-        return time;
-    }
 }
