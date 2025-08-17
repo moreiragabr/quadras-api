@@ -1,6 +1,6 @@
-package app.quadras.Repository;
+package app.quadras.repository;
 
-import app.quadras.Entity.Horario;
+import app.quadras.entity.Horario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

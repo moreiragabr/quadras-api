@@ -1,7 +1,7 @@
-package app.quadras.Controller;
+package app.quadras.controller;
 
-import app.quadras.Entity.Horario;
-import app.quadras.Service.HorarioService;
+import app.quadras.entity.Horario;
+import app.quadras.service.HorarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

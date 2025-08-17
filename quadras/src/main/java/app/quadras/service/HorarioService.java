@@ -1,7 +1,7 @@
-package app.quadras.Service;
+package app.quadras.service;
 
-import app.quadras.Entity.Horario;
-import app.quadras.Repository.HorarioRepository;
+import app.quadras.entity.Horario;
+import app.quadras.repository.HorarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;

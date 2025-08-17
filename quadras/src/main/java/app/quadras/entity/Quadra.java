@@ -1,4 +1,4 @@
-package app.quadras.Entity;
+package app.quadras.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Time {
+public class Quadra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class Time {
 
     private String nome;
 
-    @ManyToMany(mappedBy = "timesCadastrados")
-    @JsonIgnoreProperties("timesCadastrados")
+    @OneToMany(mappedBy = "quadra")
+    @JsonIgnoreProperties("quadra")
     private List<Horario> horarios;
 }
