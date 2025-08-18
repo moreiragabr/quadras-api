@@ -21,12 +21,8 @@ public class Usuario {
     private Long id;
 
     private String nome;
-  
-    private String email;
 
-    @ManyToMany(mappedBy = "usuariosCadastrados")
-    @JsonIgnoreProperties("usuariosCadastrados")
-    private List<Horario> horarios;
+    private String email;
 
     @OneToMany(mappedBy = "presidente")
     @JsonIgnoreProperties({"presidente", "jogadores"})
@@ -36,6 +32,10 @@ public class Usuario {
     @JoinTable(name = "times_jogador")
     @JsonIgnoreProperties({"presidente", "jogadores"})
     private List<Time> times;
+
+//    @ManyToMany
+//    @JoinTable(name = "horario_usuario")
+//    private List<Horario> horariosCadastrados;
 
 //    @ManyToMany
 //    @JoinTable(name = "usuario_reservas")

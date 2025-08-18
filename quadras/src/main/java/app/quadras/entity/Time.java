@@ -22,11 +22,6 @@ public class Time {
 
     private String nome;
 
-
-    @ManyToMany(mappedBy = "timesCadastrados")
-    @JsonIgnoreProperties("timesCadastrados")
-    private List<Horario> horarios;
-  
 //    private TipoEsporte tipoEsporte;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -37,6 +32,9 @@ public class Time {
     @JsonIgnoreProperties({"times", "timesProprietarios"})
     private List<Usuario> jogadores;
 
+//    @ManyToMany
+//    @JoinTable(name = "time_horarios")
+//    private List<Horario> horariosCadastrados;
 
 //    @ManyToMany
 //    @JoinTable(name = "time_reserva")
