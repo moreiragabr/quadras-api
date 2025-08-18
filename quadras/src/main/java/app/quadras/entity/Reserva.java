@@ -1,22 +1,30 @@
 package app.quadras.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Reserva {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String descricao;
+
+    @OneToOne(mappedBy = "reserva")
+    @JsonIgnoreProperties("reserva")
+    private Horario horario;
+  
     @ManyToMany
     private List<Time> timesCadastrados;
 
     @ManyToMany
     private List<Usuario> usuariosCadastrados;
-
-    @ManyToOne
-    private Horario horario;
 
     @ManyToOne
     private Quadra quadra;
