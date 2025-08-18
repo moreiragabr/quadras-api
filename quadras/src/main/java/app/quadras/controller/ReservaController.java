@@ -1,7 +1,6 @@
 package app.quadras.controller;
 
 import app.quadras.entity.Reserva;
-import app.quadras.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
