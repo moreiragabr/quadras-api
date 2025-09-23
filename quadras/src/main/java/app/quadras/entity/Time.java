@@ -26,7 +26,8 @@ public class Time {
     @JsonIgnoreProperties("timesCadastrados")
     private List<Horario> horarios;
 
-//    private TipoEsporte tipoEsporte;
+    @Enumerated(EnumType.STRING)
+    private TipoEsporte tipoEsporte;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"times", "timesProprietarios"})
@@ -36,8 +37,7 @@ public class Time {
     @JsonIgnoreProperties({"times", "timesProprietarios"})
     private List<Usuario> jogadores;
 
-
-//    @ManyToMany
-//    @JoinTable(name = "time_reserva")
-//    private List<Reserva> reservas;
+    @ManyToMany
+    @JoinTable(name = "time_reserva")
+    private List<Reserva> reservas;
 }

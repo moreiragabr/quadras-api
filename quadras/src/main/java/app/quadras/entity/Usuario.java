@@ -29,18 +29,19 @@ public class Usuario {
     private List<Horario> horarios;
 
     @OneToMany(mappedBy = "presidente")
-    @JsonIgnoreProperties({"presidente", "jogadores"})
+    @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
     private List<Time> timesProprietarios;
 
     @ManyToMany
     @JoinTable(name = "times_jogador")
-    @JsonIgnoreProperties({"presidente", "jogadores"})
+    @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
     private List<Time> times;
 
-//    @ManyToMany
-//    @JoinTable(name = "usuario_reservas")
-//    private List<Reserva> reservas;
+    @ManyToMany
+    @JoinTable(name = "usuario_reservas")
+    private List<Reserva> reservas;
 
-//    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL)
-//    private List<Quadra> quadraS;
+    @OneToMany(mappedBy = "proprietario")
+    @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
+    private List<Quadra> quadras;
 }
