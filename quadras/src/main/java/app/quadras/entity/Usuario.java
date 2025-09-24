@@ -24,6 +24,11 @@ public class Usuario {
 
     private String email;
 
+    private String senha;
+
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
+
     @ManyToMany(mappedBy = "usuariosCadastrados")
     @JsonIgnoreProperties("usuariosCadastrados")
     private List<Horario> horarios;

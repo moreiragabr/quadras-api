@@ -3,17 +3,15 @@ package app.quadras.service;
 import app.quadras.entity.Horario;
 import app.quadras.repository.HorarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class HorarioService {
 
     private final HorarioRepository repository;
-
-    public HorarioService(HorarioRepository repository) {
-        this.repository = repository;
-    }
 
     public List<Horario> findAll() {
         return repository.findAll();
