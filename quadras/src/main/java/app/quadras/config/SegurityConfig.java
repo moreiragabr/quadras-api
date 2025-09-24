@@ -1,10 +1,9 @@
-package app.quadras.controller;
+package app.quadras.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,19 +20,11 @@ public class SegurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Para desenvolvimento - habilitar em produção
+                .csrf(csrf -> csrf.disable()) // ⬅️ Desabilita CSRF
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/**").permitAll() // Login e registro públicos
-                        .requestMatchers("/api/public/**").permitAll() // Rotas públicas
-                        .anyRequest().authenticated() // Demais rotas exigem autenticação
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .invalidSessionUrl("/api/auth/nao-autenticado")
-                )
-                .formLogin(form -> form.disable()) // Desabilita login form do Spring
-                .httpBasic(basic -> basic.disable()); // Desabilita autenticação básica
-
+                        .requestMatchers("/api/**").permitAll() // Configure suas URLs
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 

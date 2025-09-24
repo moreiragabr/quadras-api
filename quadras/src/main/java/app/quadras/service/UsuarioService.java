@@ -1,6 +1,7 @@
 package app.quadras.service;
 
 import app.quadras.entity.Time;
+import app.quadras.entity.TipoUsuario;
 import app.quadras.entity.Usuario;
 import app.quadras.repository.TimeRepository;
 import app.quadras.repository.UsuarioRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +28,17 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
+    public Optional<Usuario> findByEmail(String email) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        return usuario;
+    }
+
     public Usuario save(Usuario usuario) {
+        if (usuario.getTipoUsuario() == null) {
+            usuario.setTipoUsuario(TipoUsuario.COMUM);
             return usuarioRepository.save(usuario);
+        }
+        return usuarioRepository.save(usuario);
     }
 
     public void delete(Long id) {
@@ -40,14 +51,14 @@ public class UsuarioService {
         if (usuario.getNome() != null && !usuario.getNome().isBlank()) {
             update.setNome(usuario.getNome());
         }
-        if(usuario.getEmail()!=null&&!usuario.getEmail().isBlank()){
+        if (usuario.getEmail() != null && !usuario.getEmail().isBlank()) {
             update.setEmail(usuario.getEmail());
         }
         return usuarioRepository.save(update);
     }
 
     @Transactional
-    public Usuario adicionarTimesProprietarios(Long idTime, Long idUsuario){
+    public Usuario adicionarTimesProprietarios(Long idTime, Long idUsuario) {
         Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
         Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
         proprietario.getTimesProprietarios().add(time);
@@ -56,7 +67,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario adicionarTimesJogador(Long idTime, Long idUsuario){
+    public Usuario adicionarTimesJogador(Long idTime, Long idUsuario) {
         Usuario jogador = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
         Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
         jogador.getTimes().add(time);
@@ -65,7 +76,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario removerTimesProprietarios(Long idUsuario, Long idTime){
+    public Usuario removerTimesProprietarios(Long idUsuario, Long idTime) {
         Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
         Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
         proprietario.getTimesProprietarios().remove(time);
@@ -74,7 +85,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario removerTimesJogador(Long idUsuario, Long idTime){
+    public Usuario removerTimesJogador(Long idUsuario, Long idTime) {
         Usuario jogador = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
         Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
         jogador.getTimes().remove(time);

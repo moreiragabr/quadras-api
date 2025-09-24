@@ -3,6 +3,7 @@ package app.quadras.controller;
 import app.quadras.entity.LoginRequest;
 import app.quadras.entity.Usuario;
 import app.quadras.service.AuthService;
+import app.quadras.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class AuthController {
 
     private final AuthService authService;
+    private final UsuarioService usuarioService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest,
                                    HttpSession session) {
         if (authService.autenticar(loginRequest.getEmail(), loginRequest.getSenha())) {
             session.setAttribute("usuarioLogado", loginRequest.getEmail());
-            return ResponseEntity.ok().body("Login realizado com sucesso");
+            return ResponseEntity.ok().body(usuarioService.findByEmail(loginRequest.getEmail()));
         }
         return ResponseEntity.status(401).body("Credenciais inválidas");
     }
