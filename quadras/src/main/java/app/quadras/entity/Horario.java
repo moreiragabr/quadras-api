@@ -24,12 +24,12 @@ public class Horario {
     @NotBlank
     private String data;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @NotNull
     @JsonIgnoreProperties("horarios")
     private Quadra quadra;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "horario_times",
             joinColumns = @JoinColumn(name = "horario_id"),
@@ -38,7 +38,7 @@ public class Horario {
     @JsonIgnoreProperties("horarios")
     private List<Time> timesCadastrados;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "horario_usuarios",
             joinColumns = @JoinColumn(name = "horario_id"),
@@ -47,7 +47,7 @@ public class Horario {
     @JsonIgnoreProperties("horarios")
     private List<Usuario> usuariosCadastrados;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "reserva_id")
     @JsonIgnoreProperties("horario")
     private Reserva reserva;

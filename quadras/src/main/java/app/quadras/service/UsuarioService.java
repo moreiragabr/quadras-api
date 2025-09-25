@@ -1,8 +1,10 @@
 package app.quadras.service;
 
+import app.quadras.entity.Quadra;
 import app.quadras.entity.Time;
 import app.quadras.entity.TipoUsuario;
 import app.quadras.entity.Usuario;
+import app.quadras.repository.QuadraRepository;
 import app.quadras.repository.TimeRepository;
 import app.quadras.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +21,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final TimeRepository timeRepository;
+    private final QuadraRepository quadraRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
@@ -91,5 +94,14 @@ public class UsuarioService {
         jogador.getTimes().remove(time);
         time.getJogadores().remove(jogador);
         return jogador;
+    }
+
+    @Transactional
+    public Usuario adicionarQuadraProprietario(Long idUsuario, Long idQuadra) {
+        Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
+        Quadra quadra = quadraRepository.findById(idQuadra).orElseThrow(EntityNotFoundException::new);
+        proprietario.getQuadras().add(quadra);
+        quadra.setProprietario(proprietario);
+        return proprietario;
     }
 }

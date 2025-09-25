@@ -71,4 +71,10 @@ public class UsuarioController {
         var result = usuarioService.removerTimesJogador(idUsuario, idTime);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PutMapping("/adicionarQuadraProprietario")
+    public ResponseEntity<Usuario> adicionarQuadraProprietario(@RequestParam Long idUsuario, @RequestParam Long idQuadra){
+        var result = usuarioService.adicionarQuadraProprietario(idUsuario, idQuadra);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

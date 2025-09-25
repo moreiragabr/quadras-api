@@ -33,20 +33,19 @@ public class Usuario {
     @JsonIgnoreProperties("usuariosCadastrados")
     private List<Horario> horarios;
 
-    @OneToMany(mappedBy = "presidente")
+    @OneToMany(mappedBy = "presidente", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
     private List<Time> timesProprietarios;
 
-    @ManyToMany
-    @JoinTable(name = "times_jogador")
+    @ManyToMany(mappedBy = "jogadores")
     @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
     private List<Time> times;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(name = "usuario_reservas")
     private List<Reserva> reservas;
 
-    @OneToMany(mappedBy = "proprietario")
+    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
     private List<Quadra> quadras;
 }

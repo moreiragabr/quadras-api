@@ -17,7 +17,7 @@ public class Quadra {
     private Long id;
 
     private String nome;
-    private String nota;
+//    private String nota;
     private float valorHora;
     private boolean partidaGravavel;
     private String localizacao;
@@ -25,10 +25,10 @@ public class Quadra {
     @Enumerated(EnumType.STRING)
     private TipoEsporte tipoQuadra;
 
-    @OneToMany(mappedBy = "quadra")
+    @OneToMany(mappedBy = "quadra", cascade = CascadeType.REMOVE)
     private List<Horario> horarios;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties({"quadras"})
     private Usuario proprietario;
 }

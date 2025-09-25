@@ -19,14 +19,14 @@ public class Reserva {
     private String descricao;
 
 
-    @OneToOne(mappedBy = "reserva")
+    @OneToOne(mappedBy = "reserva", cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties("reserva")
     private Horario horario;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Time> timesCadastrados;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Usuario> usuariosCadastrados;
 
     @ManyToOne

@@ -35,7 +35,7 @@ public class QuadraService {
     public Quadra update(Long id, Quadra quadraDetails) {
         Quadra quadra = findById(id);
         quadra.setNome(quadraDetails.getNome());
-        quadra.setNota(quadraDetails.getNota());
+//        quadra.setNota(quadraDetails.getNota());
         quadra.setValorHora(quadraDetails.getValorHora());
         quadra.setPartidaGravavel(quadraDetails.isPartidaGravavel());
         quadra.setLocalizacao(quadraDetails.getLocalizacao());
