@@ -28,7 +28,7 @@ public class Quadra {
     @OneToMany(mappedBy = "quadra", cascade = CascadeType.REMOVE)
     private List<Horario> horarios;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonIgnoreProperties({"quadras"})
     private Usuario proprietario;
 }
