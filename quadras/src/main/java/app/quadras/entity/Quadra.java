@@ -29,6 +29,6 @@ public class Quadra {
     private List<Horario> horarios;
 
     @ManyToOne
-    @JsonIgnoreProperties({"quadras"})
+    @JsonIgnoreProperties("quadras")
     private Usuario proprietario;
 }
