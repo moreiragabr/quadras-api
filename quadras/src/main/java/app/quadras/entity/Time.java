@@ -26,18 +26,19 @@ public class Time {
     @JsonIgnoreProperties("timesCadastrados")
     private List<Horario> horarios;
 
-//    private TipoEsporte tipoEsporte;
+    @Enumerated(EnumType.STRING)
+    private TipoEsporte tipoEsporte;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JsonIgnoreProperties({"times", "timesProprietarios"})
     private Usuario presidente;
 
-    @ManyToMany(mappedBy = "times", cascade = CascadeType.PERSIST)
+    @ManyToMany()
+    @JoinTable(name = "times_jogador")
     @JsonIgnoreProperties({"times", "timesProprietarios"})
     private List<Usuario> jogadores;
 
-
-//    @ManyToMany
-//    @JoinTable(name = "time_reserva")
-//    private List<Reserva> reservas;
+    @ManyToMany()
+    @JoinTable(name = "time_reserva")
+    private List<Reserva> reservas;
 }

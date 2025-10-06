@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
-@Entity
 public class Quadra {
 
     @Id
@@ -16,8 +17,18 @@ public class Quadra {
     private Long id;
 
     private String nome;
+//    private String nota;
+    private float valorHora;
+    private boolean partidaGravavel;
+    private String localizacao;
 
-    @OneToMany(mappedBy = "quadra")
-    @JsonIgnoreProperties("quadra")
+    @Enumerated(EnumType.STRING)
+    private TipoEsporte tipoQuadra;
+
+    @OneToMany(mappedBy = "quadra", cascade = CascadeType.REMOVE)
     private List<Horario> horarios;
+
+    @ManyToOne
+    @JsonIgnoreProperties("quadras")
+    private Usuario proprietario;
 }

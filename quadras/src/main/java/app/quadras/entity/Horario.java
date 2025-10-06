@@ -4,9 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class Horario {
 
     @Id
@@ -19,12 +24,12 @@ public class Horario {
     @NotBlank
     private String data;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @NotNull
     @JsonIgnoreProperties("horarios")
     private Quadra quadra;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "horario_times",
             joinColumns = @JoinColumn(name = "horario_id"),
@@ -33,7 +38,7 @@ public class Horario {
     @JsonIgnoreProperties("horarios")
     private List<Time> timesCadastrados;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "horario_usuarios",
             joinColumns = @JoinColumn(name = "horario_id"),
@@ -42,30 +47,8 @@ public class Horario {
     @JsonIgnoreProperties("horarios")
     private List<Usuario> usuariosCadastrados;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "reserva_id")
     @JsonIgnoreProperties("horario")
     private Reserva reserva;
-
-    // Getters e Setters manuais
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getHorario() { return horario; }
-    public void setHorario(String horario) { this.horario = horario; }
-
-    public String getData() { return data; }
-    public void setData(String data) { this.data = data; }
-
-    public Quadra getQuadra() { return quadra; }
-    public void setQuadra(Quadra quadra) { this.quadra = quadra; }
-
-    public List<Time> getTimesCadastrados() { return timesCadastrados; }
-    public void setTimesCadastrados(List<Time> timesCadastrados) { this.timesCadastrados = timesCadastrados; }
-
-    public List<Usuario> getUsuariosCadastrados() { return usuariosCadastrados; }
-    public void setUsuariosCadastrados(List<Usuario> usuariosCadastrados) { this.usuariosCadastrados = usuariosCadastrados; }
-
-    public Reserva getReserva() { return reserva; }
-    public void setReserva(Reserva reserva) { this.reserva = reserva; }
 }

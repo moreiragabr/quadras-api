@@ -1,8 +1,11 @@
 package app.quadras.service;
 
 import app.quadras.entity.Time;
+import app.quadras.entity.Usuario;
 import app.quadras.repository.TimeRepository;
+import app.quadras.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +29,13 @@ public class TimeService {
         return timeRepository.save(time);
     }
 
+    @Transactional
     public void delete(Long id) {
         Time time = findById(id);
+        if (time.getJogadores() != null) {
+            time.getJogadores().clear();
+        }
+        timeRepository.saveAndFlush(time);
         timeRepository.delete(time);
     }
 
@@ -36,11 +44,8 @@ public class TimeService {
         if (time.getNome() != null && !time.getNome().isBlank()) {
             update.setNome(time.getNome());
         }
-        if (time.getPresidente()!=null){
-            update.setPresidente(time.getPresidente());
-        }
-        if(time.getJogadores()!=null){
-            update.setJogadores(time.getJogadores());
+        if(time.getTipoEsporte()!=null){
+            update.setTipoEsporte(time.getTipoEsporte());
         }
         return timeRepository.save(update);
     }

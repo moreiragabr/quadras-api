@@ -24,23 +24,28 @@ public class Usuario {
 
     private String email;
 
+    private String senha;
+
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
+
     @ManyToMany(mappedBy = "usuariosCadastrados")
     @JsonIgnoreProperties("usuariosCadastrados")
     private List<Horario> horarios;
 
-    @OneToMany(mappedBy = "presidente")
+    @OneToMany(mappedBy = "presidente", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"presidente", "jogadores"})
     private List<Time> timesProprietarios;
 
-    @ManyToMany
-    @JoinTable(name = "times_jogador")
+    @ManyToMany(mappedBy = "jogadores")
     @JsonIgnoreProperties({"presidente", "jogadores"})
     private List<Time> times;
 
-//    @ManyToMany
-//    @JoinTable(name = "usuario_reservas")
-//    private List<Reserva> reservas;
+    @ManyToMany()
+    @JoinTable(name = "usuario_reservas")
+    private List<Reserva> reservas;
 
-//    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL)
-//    private List<Quadra> quadraS;
+    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
+    private List<Quadra> quadras;
 }
