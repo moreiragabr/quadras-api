@@ -38,7 +38,7 @@ public class QuadraControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private final Quadra quadra = new Quadra(1L, "Quadra Teste", 1000, true, "Local Teste", TipoEsporte.AREIA, null, null);
+    private final Quadra quadra = new Quadra(1L, "Quadra Teste", 1000F, true, "Local Teste", TipoEsporte.AREIA, null, null);
 
     @Test
     @DisplayName("Testar findAll - TESTE DE INTEGRAÇÃO")

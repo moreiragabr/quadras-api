@@ -22,8 +22,8 @@ public class Quadra {
 
     private String nome;
 //    private String nota;
-    private float valorHora;
-    private boolean partidaGravavel;
+    private Float valorHora;
+    private Boolean partidaGravavel;
     private String localizacao;
 
     @Enumerated(EnumType.STRING)

@@ -34,12 +34,23 @@ public class QuadraService {
     @Transactional
     public Quadra update(Long id, Quadra quadraDetails) {
         Quadra quadra = findById(id);
-        quadra.setNome(quadraDetails.getNome());
-//        quadra.setNota(quadraDetails.getNota());
-        quadra.setValorHora(quadraDetails.getValorHora());
-        quadra.setPartidaGravavel(quadraDetails.isPartidaGravavel());
-        quadra.setLocalizacao(quadraDetails.getLocalizacao());
-        quadra.setTipoQuadra(quadraDetails.getTipoQuadra());
+
+        if (quadraDetails.getNome() != null && !quadraDetails.getNome().isBlank()) {
+            quadra.setNome(quadraDetails.getNome());
+        }
+        if (quadraDetails.getValorHora() != null) {
+            quadra.setValorHora(quadraDetails.getValorHora());
+        }
+        // Para boolean, verifica se não é nulo (se for Boolean wrapper)
+        if (quadraDetails.getPartidaGravavel() != null) {
+            quadra.setPartidaGravavel(quadraDetails.getPartidaGravavel());
+        }
+        if (quadraDetails.getLocalizacao() != null && !quadraDetails.getLocalizacao().isBlank()) {
+            quadra.setLocalizacao(quadraDetails.getLocalizacao());
+        }
+        if (quadraDetails.getTipoQuadra() != null) {
+            quadra.setTipoQuadra(quadraDetails.getTipoQuadra());
+        }
         return quadraRepository.save(quadra);
     }
 
