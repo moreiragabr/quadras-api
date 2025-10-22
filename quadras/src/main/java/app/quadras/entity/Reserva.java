@@ -12,6 +12,9 @@ import java.util.List;
 @Entity
 public class Reserva {
 
+    public Reserva() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

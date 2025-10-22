@@ -12,9 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Time {
+
+    public Time() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
