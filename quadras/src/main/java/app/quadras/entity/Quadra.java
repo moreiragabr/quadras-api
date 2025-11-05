@@ -2,15 +2,17 @@ package app.quadras.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 public class Quadra {
+
+    public Quadra() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +20,8 @@ public class Quadra {
 
     private String nome;
 //    private String nota;
-    private float valorHora;
-    private boolean partidaGravavel;
+    private Float valorHora;
+    private Boolean partidaGravavel;
     private String localizacao;
 
     @Enumerated(EnumType.STRING)

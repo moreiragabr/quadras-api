@@ -12,9 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Usuario {
+
+    public Usuario() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
