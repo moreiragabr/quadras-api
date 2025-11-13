@@ -22,7 +22,9 @@ public class Quadra {
 //    private String nota;
     private Float valorHora;
     private Boolean partidaGravavel;
-    private String localizacao;
+    private String cidade;
+    private String bairro;
+    private String estado;
 
     @Enumerated(EnumType.STRING)
     private TipoEsporte tipoQuadra;

@@ -41,12 +41,17 @@ public class QuadraService {
         if (quadraDetails.getValorHora() != null) {
             quadra.setValorHora(quadraDetails.getValorHora());
         }
-        // Para boolean, verifica se não é nulo (se for Boolean wrapper)
         if (quadraDetails.getPartidaGravavel() != null) {
             quadra.setPartidaGravavel(quadraDetails.getPartidaGravavel());
         }
-        if (quadraDetails.getLocalizacao() != null && !quadraDetails.getLocalizacao().isBlank()) {
-            quadra.setLocalizacao(quadraDetails.getLocalizacao());
+        if (quadraDetails.getBairro() != null && !quadraDetails.getBairro().isBlank()){
+            quadra.setBairro(quadraDetails.getBairro());
+        }
+        if (quadraDetails.getCidade() != null && !quadraDetails.getCidade().isBlank()){
+            quadra.setCidade(quadraDetails.getCidade());
+        }
+        if (quadraDetails.getEstado() != null && !quadraDetails.getEstado().isBlank()){
+            quadra.setEstado(quadraDetails.getEstado());
         }
         if (quadraDetails.getTipoQuadra() != null) {
             quadra.setTipoQuadra(quadraDetails.getTipoQuadra());
