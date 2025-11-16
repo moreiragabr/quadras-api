@@ -19,6 +19,10 @@ public class Quadra {
     private Long id;
 
     private String nome;
+
+    @Column(length = 500)
+    private String descricao;
+
 //    private String nota;
     private Float valorHora;
     private Boolean partidaGravavel;

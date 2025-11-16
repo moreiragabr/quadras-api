@@ -44,6 +44,9 @@ public class QuadraService {
         if (quadraDetails.getPartidaGravavel() != null) {
             quadra.setPartidaGravavel(quadraDetails.getPartidaGravavel());
         }
+        if(quadraDetails.getDescricao()!=null &&!quadraDetails.getDescricao().isBlank()){
+            quadra.setDescricao(quadraDetails.getDescricao());
+        }
         if (quadraDetails.getBairro() != null && !quadraDetails.getBairro().isBlank()){
             quadra.setBairro(quadraDetails.getBairro());
         }
