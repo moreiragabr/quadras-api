@@ -29,6 +29,11 @@ public class Quadra {
     private String cidade;
     private String bairro;
     private String estado;
+    private String rua;
+    private String numeroCasa;
+    private String lot;
+    private String lat;
+    private String cep;
 
     @Enumerated(EnumType.STRING)
     private TipoEsporte tipoQuadra;

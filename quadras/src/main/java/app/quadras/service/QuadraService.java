@@ -44,17 +44,32 @@ public class QuadraService {
         if (quadraDetails.getPartidaGravavel() != null) {
             quadra.setPartidaGravavel(quadraDetails.getPartidaGravavel());
         }
-        if(quadraDetails.getDescricao()!=null &&!quadraDetails.getDescricao().isBlank()){
+        if (quadraDetails.getDescricao() != null && !quadraDetails.getDescricao().isBlank()) {
             quadra.setDescricao(quadraDetails.getDescricao());
         }
-        if (quadraDetails.getBairro() != null && !quadraDetails.getBairro().isBlank()){
+        if (quadraDetails.getBairro() != null && !quadraDetails.getBairro().isBlank()) {
             quadra.setBairro(quadraDetails.getBairro());
         }
-        if (quadraDetails.getCidade() != null && !quadraDetails.getCidade().isBlank()){
+        if (quadraDetails.getCidade() != null && !quadraDetails.getCidade().isBlank()) {
             quadra.setCidade(quadraDetails.getCidade());
         }
-        if (quadraDetails.getEstado() != null && !quadraDetails.getEstado().isBlank()){
+        if (quadraDetails.getEstado() != null && !quadraDetails.getEstado().isBlank()) {
             quadra.setEstado(quadraDetails.getEstado());
+        }
+        if (quadraDetails.getNumeroCasa() != null && !quadraDetails.getNumeroCasa().isBlank()) {
+            quadra.setNumeroCasa(quadraDetails.getNumeroCasa());
+        }
+        if (quadraDetails.getLat() != null && !quadraDetails.getLat().isBlank()) {
+            quadra.setLat(quadraDetails.getLat());
+        }
+        if (quadraDetails.getLot() != null && !quadraDetails.getLot().isBlank()) {
+            quadra.setLot(quadraDetails.getLot());
+        }
+        if (quadraDetails.getCep() != null && !quadraDetails.getCep().isBlank()) {
+            quadra.setCep(quadraDetails.getCep());
+        }
+        if (quadraDetails.getRua() != null && !quadraDetails.getRua().isBlank()) {
+            quadra.setRua(quadraDetails.getRua());
         }
         if (quadraDetails.getTipoQuadra() != null) {
             quadra.setTipoQuadra(quadraDetails.getTipoQuadra());
