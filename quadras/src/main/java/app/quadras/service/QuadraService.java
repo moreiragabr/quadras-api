@@ -74,6 +74,36 @@ public class QuadraService {
         if (quadraDetails.getTipoQuadra() != null) {
             quadra.setTipoQuadra(quadraDetails.getTipoQuadra());
         }
+        if (quadraDetails.getHaveBar() != null) {
+            quadra.setHaveBar(quadraDetails.getHaveBar());
+        }
+        if (quadraDetails.getHaveWifi() != null) {
+            quadra.setHaveWifi(quadraDetails.getHaveWifi());
+        }
+        if (quadraDetails.getHaveEscolinha() != null) {
+            quadra.setHaveEscolinha(quadraDetails.getHaveEscolinha());
+        }
+        if (quadraDetails.getHaveLanchonete() != null) {
+            quadra.setHaveLanchonete(quadraDetails.getHaveLanchonete());
+        }
+        if (quadraDetails.getHaveEstacionamento() != null) {
+            quadra.setHaveEstacionamento(quadraDetails.getHaveEstacionamento());
+        }
+        if (quadraDetails.getHaveVestiario() != null) {
+            quadra.setHaveVestiario(quadraDetails.getHaveVestiario());
+        }
+        if (quadraDetails.getHaveChurrasqueira() != null) {
+            quadra.setHaveChurrasqueira(quadraDetails.getHaveChurrasqueira());
+        }
+        if (quadraDetails.getHaveTv() != null) {
+            quadra.setHaveTv(quadraDetails.getHaveTv());
+        }
+        if (quadraDetails.getHaveOutros() != null) {
+            quadra.setHaveOutros(quadraDetails.getHaveOutros());
+        }
+        if (quadraDetails.getOutrosDesc() != null && quadraDetails.getOutrosDesc().isBlank()) {
+            quadra.setOutrosDesc(quadraDetails.getOutrosDesc());
+        }
         return quadraRepository.save(quadra);
     }
 
