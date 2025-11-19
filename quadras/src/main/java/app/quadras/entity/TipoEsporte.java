@@ -9,5 +9,6 @@ public enum TipoEsporte {
     TENIS,
     HANDEBOL,
     AREIA,
-    BEACHTENIS
+    BEACHTENIS,
+    FUTEBOL
 }
