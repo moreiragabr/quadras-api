@@ -54,6 +54,9 @@ public class Quadra {
     @OneToMany(mappedBy = "quadra", cascade = CascadeType.REMOVE)
     private List<Campo> campos;
 
+    @OneToMany(mappedBy = "quadra", cascade = CascadeType.REMOVE)
+    private List<HorarioDia> horariosDeFuncionamento;
+
     @ManyToOne
     @JsonIgnoreProperties("quadras")
     private Usuario proprietario;
