@@ -32,10 +32,10 @@ public class HorarioController {
         return ResponseEntity.ok(service.save(horario));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Horario> atualizar(@PathVariable Long id, @RequestBody Horario horario) {
-        return ResponseEntity.ok(service.update(id, horario));
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Horario> atualizar(@PathVariable Long id, @RequestBody Horario horario) {
+//        return ResponseEntity.ok(service.update(id, horario));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {

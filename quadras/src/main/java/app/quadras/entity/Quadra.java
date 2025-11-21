@@ -25,7 +25,7 @@ public class Quadra {
 
     //    private String nota;
     private Float valorHora;
-    private Boolean partidaGravavel;
+//    private Boolean partidaGravavel;
     private String cidade;
     private String bairro;
     private String estado;

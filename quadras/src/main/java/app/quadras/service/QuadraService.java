@@ -41,9 +41,9 @@ public class QuadraService {
         if (quadraDetails.getValorHora() != null) {
             quadra.setValorHora(quadraDetails.getValorHora());
         }
-        if (quadraDetails.getPartidaGravavel() != null) {
-            quadra.setPartidaGravavel(quadraDetails.getPartidaGravavel());
-        }
+//        if (quadraDetails.getPartidaGravavel() != null) {
+//            quadra.setPartidaGravavel(quadraDetails.getPartidaGravavel());
+//        }
         if (quadraDetails.getDescricao() != null && !quadraDetails.getDescricao().isBlank()) {
             quadra.setDescricao(quadraDetails.getDescricao());
         }

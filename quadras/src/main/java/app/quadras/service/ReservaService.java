@@ -11,8 +11,8 @@ public class ReservaService {
 
     @Autowired
     private ReservaRepository reservaRepository;
-    @Autowired
-    private TimeRepository timeRepository;
+//    @Autowired
+//    private TimeRepository timeRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
@@ -20,20 +20,20 @@ public class ReservaService {
     @Autowired
     private QuadraRepository quadraRepository;
 
-    public Reserva criarReserva(List<Long> timesIds, List<Long> usuariosIds, Long horarioId, Long quadraId) {
-        List<Time> times = timeRepository.findAllById(timesIds);
-        List<Usuario> usuarios = usuarioRepository.findAllById(usuariosIds);
-        Horario horario = horarioRepository.findById(horarioId).orElseThrow();
-        Quadra quadra = quadraRepository.findById(quadraId).orElseThrow();
-
-        Reserva reserva = new Reserva();
-        reserva.setTimesCadastrados(times);
-        reserva.setUsuariosCadastrados(usuarios);
-        reserva.setHorario(horario);
-        reserva.setQuadra(quadra);
-
-        return reservaRepository.save(reserva);
-    }
+//    public Reserva criarReserva(List<Long> timesIds, List<Long> usuariosIds, Long horarioId, Long quadraId) {
+//        List<Time> times = timeRepository.findAllById(timesIds);
+//        List<Usuario> usuarios = usuarioRepository.findAllById(usuariosIds);
+//        Horario horario = horarioRepository.findById(horarioId).orElseThrow();
+//        Quadra quadra = quadraRepository.findById(quadraId).orElseThrow();
+//
+//        Reserva reserva = new Reserva();
+//        reserva.setTimesCadastrados(times);
+//        reserva.setUsuariosCadastrados(usuarios);
+//        reserva.setHorario(horario);
+//        reserva.setQuadra(quadra);
+//
+//        return reservaRepository.save(reserva);
+//    }
 
     public List<Reserva> getAll() {
         return reservaRepository.findAll();

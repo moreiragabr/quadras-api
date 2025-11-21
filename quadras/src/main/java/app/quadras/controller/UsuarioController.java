@@ -1,6 +1,6 @@
 package app.quadras.controller;
 
-import app.quadras.entity.Time;
+//import app.quadras.entity.Time;
 import app.quadras.entity.Usuario;
 import app.quadras.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -48,29 +48,29 @@ public class UsuarioController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PutMapping("/adicionarTimeProprietario")
-    public ResponseEntity<Usuario> adicionarTimesProprietarios(@RequestParam Long idUsuario, @RequestParam Long idTime) {
-        var result = usuarioService.adicionarTimesProprietarios(idTime, idUsuario);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @PutMapping("/adicionarTimeJogador")
-    public ResponseEntity<Usuario> adicionarTimesJogador(@RequestParam Long idUsuario, @RequestParam Long idTime) {
-        var result = usuarioService.adicionarTimesJogador(idTime, idUsuario);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/removerTimesProprietarios")
-    public ResponseEntity<Usuario> removerTimesProprietarios(@RequestParam Long idUsuario, @RequestParam Long idTime) {
-        var result = usuarioService.removerTimesProprietarios(idUsuario, idTime);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/removerTimesJogador")
-    public ResponseEntity<Usuario> removerTimesJogador(@RequestParam Long idUsuario, @RequestParam Long idTime) {
-        var result = usuarioService.removerTimesJogador(idUsuario, idTime);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+//    @PutMapping("/adicionarTimeProprietario")
+//    public ResponseEntity<Usuario> adicionarTimesProprietarios(@RequestParam Long idUsuario, @RequestParam Long idTime) {
+//        var result = usuarioService.adicionarTimesProprietarios(idTime, idUsuario);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+//
+//    @PutMapping("/adicionarTimeJogador")
+//    public ResponseEntity<Usuario> adicionarTimesJogador(@RequestParam Long idUsuario, @RequestParam Long idTime) {
+//        var result = usuarioService.adicionarTimesJogador(idTime, idUsuario);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping("/removerTimesProprietarios")
+//    public ResponseEntity<Usuario> removerTimesProprietarios(@RequestParam Long idUsuario, @RequestParam Long idTime) {
+//        var result = usuarioService.removerTimesProprietarios(idUsuario, idTime);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping("/removerTimesJogador")
+//    public ResponseEntity<Usuario> removerTimesJogador(@RequestParam Long idUsuario, @RequestParam Long idTime) {
+//        var result = usuarioService.removerTimesJogador(idUsuario, idTime);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
 
     @PutMapping("/adicionarQuadraProprietario")
     public ResponseEntity<Usuario> adicionarQuadraProprietario(@RequestParam Long idUsuario, @RequestParam Long idQuadra){

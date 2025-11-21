@@ -1,11 +1,11 @@
 package app.quadras.service;
 
 import app.quadras.entity.Quadra;
-import app.quadras.entity.Time;
+//import app.quadras.entity.Time;
 import app.quadras.entity.TipoUsuario;
 import app.quadras.entity.Usuario;
 import app.quadras.repository.QuadraRepository;
-import app.quadras.repository.TimeRepository;
+//import app.quadras.repository.TimeRepository;
 import app.quadras.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final TimeRepository timeRepository;
+//    private final TimeRepository timeRepository;
     private final QuadraRepository quadraRepository;
 
     public List<Usuario> findAll() {
@@ -60,41 +60,41 @@ public class UsuarioService {
         return usuarioRepository.save(update);
     }
 
-    @Transactional
-    public Usuario adicionarTimesProprietarios(Long idTime, Long idUsuario) {
-        Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
-        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
-        proprietario.getTimesProprietarios().add(time);
-        time.setPresidente(proprietario);
-        return proprietario;
-    }
+//    @Transactional
+//    public Usuario adicionarTimesProprietarios(Long idTime, Long idUsuario) {
+//        Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
+//        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
+//        proprietario.getTimesProprietarios().add(time);
+//        time.setPresidente(proprietario);
+//        return proprietario;
+//    }
 
-    @Transactional
-    public Usuario adicionarTimesJogador(Long idTime, Long idUsuario) {
-        Usuario jogador = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
-        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
-        jogador.getTimes().add(time);
-        time.getJogadores().add(jogador);
-        return jogador;
-    }
+//    @Transactional
+//    public Usuario adicionarTimesJogador(Long idTime, Long idUsuario) {
+//        Usuario jogador = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
+//        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
+//        jogador.getTimes().add(time);
+//        time.getJogadores().add(jogador);
+//        return jogador;
+//    }
 
-    @Transactional
-    public Usuario removerTimesProprietarios(Long idUsuario, Long idTime) {
-        Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
-        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
-        proprietario.getTimesProprietarios().remove(time);
-        time.setPresidente(null);
-        return proprietario;
-    }
-
-    @Transactional
-    public Usuario removerTimesJogador(Long idUsuario, Long idTime) {
-        Usuario jogador = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
-        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
-        jogador.getTimes().remove(time);
-        time.getJogadores().remove(jogador);
-        return jogador;
-    }
+//    @Transactional
+//    public Usuario removerTimesProprietarios(Long idUsuario, Long idTime) {
+//        Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
+//        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
+//        proprietario.getTimesProprietarios().remove(time);
+//        time.setPresidente(null);
+//        return proprietario;
+//    }
+//
+//    @Transactional
+//    public Usuario removerTimesJogador(Long idUsuario, Long idTime) {
+//        Usuario jogador = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
+//        Time time = timeRepository.findById(idTime).orElseThrow(EntityNotFoundException::new);
+//        jogador.getTimes().remove(time);
+//        time.getJogadores().remove(jogador);
+//        return jogador;
+//    }
 
     @Transactional
     public Usuario adicionarQuadraProprietario(Long idUsuario, Long idQuadra) {

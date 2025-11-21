@@ -18,44 +18,22 @@ import java.util.List;
 @AllArgsConstructor
 public class Horario {
 
-    public Horario() {
-    }
+    public Horario() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private String horario;
+    private Long dayOfWeek;
 
-    @NotBlank
-    private String data;
+    private String dayName;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @NotNull
-    @JsonIgnoreProperties("horarios")
+    private Boolean isOpen;
+
+    private String openTime;
+
+    private String closeTime;
+
+    @ManyToOne
     private Quadra quadra;
-
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "horario_times",
-            joinColumns = @JoinColumn(name = "horario_id"),
-            inverseJoinColumns = @JoinColumn(name = "time_id")
-    )
-    @JsonIgnoreProperties("horarios")
-    private List<Time> timesCadastrados;
-
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "horario_usuarios",
-            joinColumns = @JoinColumn(name = "horario_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id")
-    )
-    @JsonIgnoreProperties("horarios")
-    private List<Usuario> usuariosCadastrados;
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "reserva_id")
-    @JsonIgnoreProperties("horario")
-    private Reserva reserva;
 }

@@ -31,21 +31,21 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
-    @ManyToMany(mappedBy = "usuariosCadastrados")
-    @JsonIgnoreProperties("usuariosCadastrados")
-    private List<Horario> horarios;
+//    @ManyToMany(mappedBy = "usuariosCadastrados")
+//    @JsonIgnoreProperties("usuariosCadastrados")
+//    private List<Horario> horarios;
 
-    @OneToMany(mappedBy = "presidente", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({"presidente", "jogadores"})
-    private List<Time> timesProprietarios;
+//    @OneToMany(mappedBy = "presidente", cascade = CascadeType.REMOVE)
+//    @JsonIgnoreProperties({"presidente", "jogadores"})
+//    private List<Time> timesProprietarios;
+//
+//    @ManyToMany(mappedBy = "jogadores")
+//    @JsonIgnoreProperties({"presidente", "jogadores"})
+//    private List<Time> times;
 
-    @ManyToMany(mappedBy = "jogadores")
-    @JsonIgnoreProperties({"presidente", "jogadores"})
-    private List<Time> times;
-
-    @ManyToMany()
-    @JoinTable(name = "usuario_reservas")
-    private List<Reserva> reservas;
+//    @ManyToMany()
+//    @JoinTable(name = "usuario_reservas")
+//    private List<Reserva> reservas;
 
     @OneToMany(mappedBy = "proprietario", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})

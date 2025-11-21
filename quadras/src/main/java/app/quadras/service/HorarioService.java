@@ -33,29 +33,29 @@ public class HorarioService {
         Horario existente = findById(id);
         repository.delete(existente);
     }
-
-    public Horario update(Long id, Horario horario) {
-        Horario existente = findById(id);
-
-        if (horario.getHorario() != null && !horario.getHorario().isBlank()) {
-            existente.setHorario(horario.getHorario());
-        }
-        if (horario.getData() != null && !horario.getData().isBlank()) {
-            existente.setData(horario.getData());
-        }
-        if (horario.getQuadra() != null) {
-            existente.setQuadra(horario.getQuadra());
-        }
-        if (horario.getTimesCadastrados() != null) {
-            existente.setTimesCadastrados(horario.getTimesCadastrados());
-        }
-        if (horario.getUsuariosCadastrados() != null) {
-            existente.setUsuariosCadastrados(horario.getUsuariosCadastrados());
-        }
-        if (horario.getReserva() != null) {
-            existente.setReserva(horario.getReserva());
-        }
-
-        return repository.save(existente);
-    }
+//
+//    public Horario update(Long id, Horario horario) {
+//        Horario existente = findById(id);
+//
+//        if (horario.getHorario() != null && !horario.getHorario().isBlank()) {
+//            existente.setHorario(horario.getHorario());
+//        }
+//        if (horario.getData() != null && !horario.getData().isBlank()) {
+//            existente.setData(horario.getData());
+//        }
+//        if (horario.getQuadra() != null) {
+//            existente.setQuadra(horario.getQuadra());
+//        }
+//        if (horario.getTimesCadastrados() != null) {
+//            existente.setTimesCadastrados(horario.getTimesCadastrados());
+//        }
+//        if (horario.getUsuariosCadastrados() != null) {
+//            existente.setUsuariosCadastrados(horario.getUsuariosCadastrados());
+//        }
+//        if (horario.getReserva() != null) {
+//            existente.setReserva(horario.getReserva());
+//        }
+//
+//        return repository.save(existente);
+//    }
 }
