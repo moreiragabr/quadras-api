@@ -1,5 +1,6 @@
 package app.quadras.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -15,10 +16,11 @@ public class Campo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int identificador;
+
     private String nome;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @NotNull
-    @JsonIgnoreProperties("campos")
+    @JsonIgnore
     private Quadra quadra;
 }

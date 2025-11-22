@@ -8,18 +8,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/campo")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class CampoController {
 
-    CampoService campoService;
+    private final CampoService campoService;
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<Campo> findById(@PathVariable Long id) {
         var result = campoService.findById(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Campo>> findAll() {
+        return ResponseEntity.ok(campoService.findAll());
     }
 
     @PostMapping("/save")

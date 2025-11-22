@@ -1,5 +1,6 @@
 package app.quadras.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,5 +50,6 @@ public class Usuario {
 
     @OneToMany(mappedBy = "proprietario", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
+    @JsonIgnore
     private List<Quadra> quadras;
 }

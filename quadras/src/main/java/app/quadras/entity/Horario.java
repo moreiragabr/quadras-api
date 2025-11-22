@@ -1,5 +1,6 @@
 package app.quadras.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -35,5 +36,6 @@ public class Horario {
     private String closeTime;
 
     @ManyToOne
+    @JsonIgnore
     private Quadra quadra;
 }

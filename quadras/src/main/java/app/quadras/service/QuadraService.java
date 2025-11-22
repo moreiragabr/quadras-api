@@ -1,5 +1,7 @@
 package app.quadras.service;
 
+import app.quadras.entity.Campo;
+import app.quadras.entity.Horario;
 import app.quadras.entity.Quadra;
 import app.quadras.repository.QuadraRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,6 +30,17 @@ public class QuadraService {
 
     @Transactional
     public Quadra save(Quadra quadra) {
+
+        if (quadra.getCampos() != null) {
+            for (Campo campo : quadra.getCampos()) {
+                campo.setQuadra(quadra); // Define a referência de volta
+            }
+        }
+        if (quadra.getHorarios() != null) {
+            for (Horario horario : quadra.getHorarios()) {
+                horario.setQuadra(quadra); // Define a referência de volta
+            }
+        }
         return quadraRepository.save(quadra);
     }
 
