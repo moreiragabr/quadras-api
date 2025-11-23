@@ -58,8 +58,8 @@ class ReservaServiceTest {
         usuario2.setId(2L);
         List<Usuario> usuarios = Arrays.asList(usuario1, usuario2);
 
-        Horario horario = new Horario();
-        horario.setId(1L);
+        HorarioDia horarioDia = new HorarioDia();
+        horarioDia.setId(1L);
 
         Quadra quadra = new Quadra();
         quadra.setId(1L);
@@ -69,7 +69,7 @@ class ReservaServiceTest {
 
         when(timeRepository.findAllById(timesIds)).thenReturn(times);
         when(usuarioRepository.findAllById(usuariosIds)).thenReturn(usuarios);
-        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horario));
+        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horarioDia));
         when(quadraRepository.findById(quadraId)).thenReturn(Optional.of(quadra));
         when(reservaRepository.save(any(Reserva.class))).thenReturn(reservaSalva);
 
@@ -93,8 +93,8 @@ class ReservaServiceTest {
         Long horarioId = 1L;
         Long quadraId = 1L;
 
-        Horario horario = new Horario();
-        horario.setId(1L);
+        HorarioDia horarioDia = new HorarioDia();
+        horarioDia.setId(1L);
 
         Quadra quadra = new Quadra();
         quadra.setId(1L);
@@ -104,7 +104,7 @@ class ReservaServiceTest {
 
         when(timeRepository.findAllById(timesIds)).thenReturn(List.of());
         when(usuarioRepository.findAllById(usuariosIds)).thenReturn(List.of());
-        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horario));
+        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horarioDia));
         when(quadraRepository.findById(quadraId)).thenReturn(Optional.of(quadra));
         when(reservaRepository.save(any(Reserva.class))).thenReturn(reservaSalva);
 
@@ -159,12 +159,12 @@ class ReservaServiceTest {
         time.setId(1L);
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-        Horario horario = new Horario();
-        horario.setId(1L);
+        HorarioDia horarioDia = new HorarioDia();
+        horarioDia.setId(1L);
 
         when(timeRepository.findAllById(timesIds)).thenReturn(List.of(time));
         when(usuarioRepository.findAllById(usuariosIds)).thenReturn(List.of(usuario));
-        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horario));
+        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horarioDia));
         when(quadraRepository.findById(quadraId)).thenReturn(Optional.empty());
 
         RuntimeException exception = assertThrows(
@@ -226,8 +226,8 @@ class ReservaServiceTest {
         usuario1.setId(1L);
         List<Usuario> usuarios = List.of(usuario1);
 
-        Horario horario = new Horario();
-        horario.setId(1L);
+        HorarioDia horarioDia = new HorarioDia();
+        horarioDia.setId(1L);
 
         Quadra quadra = new Quadra();
         quadra.setId(1L);
@@ -237,7 +237,7 @@ class ReservaServiceTest {
 
         when(timeRepository.findAllById(timesIds)).thenReturn(times);
         when(usuarioRepository.findAllById(usuariosIds)).thenReturn(usuarios);
-        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horario));
+        when(horarioRepository.findById(horarioId)).thenReturn(Optional.of(horarioDia));
         when(quadraRepository.findById(quadraId)).thenReturn(Optional.of(quadra));
         when(reservaRepository.save(any(Reserva.class))).thenReturn(reservaSalva);
 

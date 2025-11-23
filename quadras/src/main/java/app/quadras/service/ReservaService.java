@@ -23,7 +23,7 @@ public class ReservaService {
 //    public Reserva criarReserva(List<Long> timesIds, List<Long> usuariosIds, Long horarioId, Long quadraId) {
 //        List<Time> times = timeRepository.findAllById(timesIds);
 //        List<Usuario> usuarios = usuarioRepository.findAllById(usuariosIds);
-//        Horario horario = horarioRepository.findById(horarioId).orElseThrow();
+//        HorarioDia horario = horarioRepository.findById(horarioId).orElseThrow();
 //        Quadra quadra = quadraRepository.findById(quadraId).orElseThrow();
 //
 //        Reserva reserva = new Reserva();

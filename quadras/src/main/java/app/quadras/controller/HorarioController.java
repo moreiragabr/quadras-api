@@ -1,6 +1,6 @@
 package app.quadras.controller;
 
-import app.quadras.entity.Horario;
+import app.quadras.entity.HorarioDia;
 import app.quadras.service.HorarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,22 +18,22 @@ public class HorarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Horario>> listarTodos() {
+    public ResponseEntity<List<HorarioDia>> listarTodos() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Horario> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<HorarioDia> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Horario> criar(@RequestBody Horario horario) {
-        return ResponseEntity.ok(service.save(horario));
+    public ResponseEntity<HorarioDia> criar(@RequestBody HorarioDia horarioDia) {
+        return ResponseEntity.ok(service.save(horarioDia));
     }
 
 //    @PutMapping("/{id}")
-//    public ResponseEntity<Horario> atualizar(@PathVariable Long id, @RequestBody Horario horario) {
+//    public ResponseEntity<HorarioDia> atualizar(@PathVariable Long id, @RequestBody HorarioDia horario) {
 //        return ResponseEntity.ok(service.update(id, horario));
 //    }
 

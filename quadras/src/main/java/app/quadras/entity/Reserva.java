@@ -24,7 +24,7 @@ public class Reserva {
 
 //    @OneToOne(mappedBy = "reserva", cascade = CascadeType.PERSIST)
 //    @JsonIgnoreProperties("reserva")
-//    private Horario horario;
+//    private HorarioDia horario;
 
 //    @ManyToMany(cascade = CascadeType.PERSIST)
 //    private List<Time> timesCadastrados;

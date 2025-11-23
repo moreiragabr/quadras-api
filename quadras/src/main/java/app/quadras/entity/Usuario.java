@@ -34,7 +34,7 @@ public class Usuario {
 
 //    @ManyToMany(mappedBy = "usuariosCadastrados")
 //    @JsonIgnoreProperties("usuariosCadastrados")
-//    private List<Horario> horarios;
+//    private List<HorarioDia> horarios;
 
 //    @OneToMany(mappedBy = "presidente", cascade = CascadeType.REMOVE)
 //    @JsonIgnoreProperties({"presidente", "jogadores"})

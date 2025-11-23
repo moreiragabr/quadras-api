@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Campo {
 
     @Id
@@ -21,6 +23,6 @@ public class Campo {
     private String nome;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonIgnore
+    @JsonIgnoreProperties("campos")
     private Quadra quadra;
 }

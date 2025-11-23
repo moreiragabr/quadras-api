@@ -48,10 +48,11 @@ public class Quadra {
     @Enumerated(EnumType.STRING)
     private TipoEsporte tipoQuadra;
 
-    @OneToMany(mappedBy = "quadra", cascade = CascadeType.REMOVE)
-    private List<Horario> horarios;
+    @OneToMany(mappedBy = "quadra", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
+    @JsonIgnoreProperties("quadra")
+    private List<HorarioDia> horariosDeFuncionamento;
 
-    @OneToMany(mappedBy = "quadra", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "quadra", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Campo> campos;
 
     @ManyToOne

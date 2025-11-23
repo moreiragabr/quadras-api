@@ -26,7 +26,7 @@
 //
 //    @ManyToMany(mappedBy = "timesCadastrados")
 //    @JsonIgnoreProperties("timesCadastrados")
-//    private List<Horario> horarios;
+//    private List<HorarioDia> horarios;
 //
 //    @Enumerated(EnumType.STRING)
 //    private TipoEsporte tipoEsporte;

@@ -1,6 +1,6 @@
 package app.quadras.service;
 
-import app.quadras.entity.Horario;
+import app.quadras.entity.HorarioDia;
 import app.quadras.repository.HorarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,29 +13,29 @@ public class HorarioService {
 
     private final HorarioRepository repository;
 
-    public List<Horario> findAll() {
+    public List<HorarioDia> findAll() {
         return repository.findAll();
     }
 
-    public Horario findById(Long id) {
+    public HorarioDia findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Horário não encontrado com id " + id));
     }
 
-    public Horario save(Horario horario) {
-        if (horario.getQuadra() == null) {
+    public HorarioDia save(HorarioDia horarioDia) {
+        if (horarioDia.getQuadra() == null) {
             throw new RuntimeException("Horário precisa de uma quadra");
         }
-        return repository.save(horario);
+        return repository.save(horarioDia);
     }
 
     public void delete(Long id) {
-        Horario existente = findById(id);
+        HorarioDia existente = findById(id);
         repository.delete(existente);
     }
 //
-//    public Horario update(Long id, Horario horario) {
-//        Horario existente = findById(id);
+//    public HorarioDia update(Long id, HorarioDia horario) {
+//        HorarioDia existente = findById(id);
 //
 //        if (horario.getHorario() != null && !horario.getHorario().isBlank()) {
 //            existente.setHorario(horario.getHorario());

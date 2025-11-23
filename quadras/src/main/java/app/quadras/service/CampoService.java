@@ -1,7 +1,6 @@
 package app.quadras.service;
 
 import app.quadras.entity.Campo;
-import app.quadras.entity.Horario;
 import app.quadras.repository.CampoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
