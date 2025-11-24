@@ -36,13 +36,13 @@ public class UsuarioService {
         return usuario;
     }
 
-    public Usuario save(Usuario usuario) {
-        if (usuario.getTipoUsuario() == null) {
-            usuario.setTipoUsuario(TipoUsuario.COMUM);
-            return usuarioRepository.save(usuario);
-        }
-        return usuarioRepository.save(usuario);
-    }
+//    public Usuario save(Usuario usuario) {
+//        if (usuario.getTipoUsuario() == null) {
+//            usuario.setTipoUsuario(TipoUsuario.COMUM);
+//            return usuarioRepository.save(usuario);
+//        }
+//        return usuarioRepository.save(usuario);
+//    }
 
     public void delete(Long id) {
         Usuario usuario = findById(id);

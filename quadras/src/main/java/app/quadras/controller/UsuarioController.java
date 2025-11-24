@@ -30,11 +30,11 @@ public class UsuarioController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
-        var result = usuarioService.save(usuario);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
-    }
+//    @PostMapping("/save")
+//    public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
+//        var result = usuarioService.save(usuario);
+//        return new ResponseEntity<>(result, HttpStatus.CREATED);
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
