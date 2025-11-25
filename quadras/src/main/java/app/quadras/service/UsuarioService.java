@@ -1,5 +1,6 @@
 package app.quadras.service;
 
+import app.quadras.dto.PerfilResponseDTO;
 import app.quadras.entity.Quadra;
 //import app.quadras.entity.Time;
 import app.quadras.entity.TipoUsuario;
@@ -20,15 +21,17 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-//    private final TimeRepository timeRepository;
+    //    private final TimeRepository timeRepository;
     private final QuadraRepository quadraRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
 
-    public Usuario findById(Long id) {
-        return usuarioRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public PerfilResponseDTO findById(Long id) {
+        return usuarioRepository.findById(id)
+                .map(PerfilResponseDTO::fromUsuario)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + id));
     }
 
     public Optional<Usuario> findByEmail(String email) {
@@ -44,21 +47,21 @@ public class UsuarioService {
 //        return usuarioRepository.save(usuario);
 //    }
 
-    public void delete(Long id) {
-        Usuario usuario = findById(id);
-        usuarioRepository.delete(usuario);
-    }
-
-    public Usuario update(Long id, Usuario usuario) {
-        Usuario update = findById(id);
-        if (usuario.getNome() != null && !usuario.getNome().isBlank()) {
-            update.setNome(usuario.getNome());
-        }
-        if (usuario.getEmail() != null && !usuario.getEmail().isBlank()) {
-            update.setEmail(usuario.getEmail());
-        }
-        return usuarioRepository.save(update);
-    }
+//    public void delete(Long id) {
+//        Usuario usuario = findById(id);
+//        usuarioRepository.delete(usuario);
+//    }
+//
+//    public Usuario update(Long id, Usuario usuario) {
+//        Usuario update = findById(id);
+//        if (usuario.getNome() != null && !usuario.getNome().isBlank()) {
+//            update.setNome(usuario.getNome());
+//        }
+//        if (usuario.getEmail() != null && !usuario.getEmail().isBlank()) {
+//            update.setEmail(usuario.getEmail());
+//        }
+//        return usuarioRepository.save(update);
+//    }
 
 //    @Transactional
 //    public Usuario adicionarTimesProprietarios(Long idTime, Long idUsuario) {

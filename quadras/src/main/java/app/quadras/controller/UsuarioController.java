@@ -1,11 +1,14 @@
 package app.quadras.controller;
 
 //import app.quadras.entity.Time;
+import app.quadras.dto.UserResponseDTO;
 import app.quadras.entity.Usuario;
 import app.quadras.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +27,15 @@ public class UsuarioController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+//    @GetMapping("/findById/{id}")
+//    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+//        var result = usuarioService.findById(id);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+
+
     @GetMapping("/findById/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         var result = usuarioService.findById(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -36,17 +46,17 @@ public class UsuarioController {
 //        return new ResponseEntity<>(result, HttpStatus.CREATED);
 //    }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        usuarioService.delete(id);
-        return new ResponseEntity<>(null, HttpStatus.valueOf(204));
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
-        var result = usuarioService.update(id, usuario);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<Void> delete(@PathVariable Long id) {
+//        usuarioService.delete(id);
+//        return new ResponseEntity<>(null, HttpStatus.valueOf(204));
+//    }
+//
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
+//        var result = usuarioService.update(id, usuario);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
 
 //    @PutMapping("/adicionarTimeProprietario")
 //    public ResponseEntity<Usuario> adicionarTimesProprietarios(@RequestParam Long idUsuario, @RequestParam Long idTime) {

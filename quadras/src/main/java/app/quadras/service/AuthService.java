@@ -67,7 +67,13 @@ public class AuthService {
                 usuarioSalvo.getId(),
                 usuarioSalvo.getNome(),
                 usuarioSalvo.getEmail(),
-                usuarioSalvo.getTipoUsuario()
+                usuarioSalvo.getTipoUsuario(),
+                usuarioSalvo.getCidade(),
+                usuarioSalvo.getBairro(),
+                usuarioSalvo.getEstado(),
+                usuarioSalvo.getRua(),
+                usuarioSalvo.getNumeroCasa(),
+                usuarioSalvo.getCep()
         );
 
         return responseDTO;

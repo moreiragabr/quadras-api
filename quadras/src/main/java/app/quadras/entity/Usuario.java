@@ -33,6 +33,13 @@ public class Usuario implements UserDetails {
 
     private String senha;
 
+    private String cidade;
+    private String bairro;
+    private String estado;
+    private String rua;
+    private String numeroCasa;
+    private String cep;
+
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
