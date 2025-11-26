@@ -1,5 +1,6 @@
 package app.quadras.controller;
 
+import app.quadras.entity.Campo;
 import app.quadras.entity.Quadra;
 import app.quadras.service.QuadraService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +43,11 @@ public class QuadraController {
         quadraService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{quadraId}/campos")
+    public ResponseEntity<List<Campo>> getCamposByQuadraId(@PathVariable Long quadraId) {
+        List<Campo> campos = quadraService.getCamposByQuadraId(quadraId);
+        return ResponseEntity.ok(campos);
+    }
+
 }

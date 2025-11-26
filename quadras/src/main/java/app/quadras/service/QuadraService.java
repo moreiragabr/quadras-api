@@ -44,6 +44,12 @@ public class QuadraService {
         return quadraRepository.save(quadra);
     }
 
+    @Transactional(readOnly = true)
+    public List<Campo> getCamposByQuadraId(Long quadraId) {
+        Quadra quadra = findById(quadraId);
+        return quadra.getCampos();
+    }
+
     @Transactional
     public Quadra update(Long id, Quadra quadraDetails) {
         Quadra quadra = findById(id);
