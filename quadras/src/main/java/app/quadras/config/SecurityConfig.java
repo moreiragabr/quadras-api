@@ -32,11 +32,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // IMPORTANTE: Stateless
                 .authorizeHttpRequests(authz -> authz
-                                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/auth/registro").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/quadras").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/api/usuario").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/registro").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/quadras").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/quadras/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/usuario").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona nosso filtro antes do padrão
         return http.build();

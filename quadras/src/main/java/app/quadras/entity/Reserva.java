@@ -1,37 +1,31 @@
 package app.quadras.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDateTime;
 
-import java.util.List;
-
+@Entity
 @Getter
 @Setter
-@Entity
 public class Reserva {
-
-    public Reserva() {
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String descricao;
+    @Column(nullable = false)
+    private LocalDateTime inicioReserva;
 
-
-//    @OneToOne(mappedBy = "reserva", cascade = CascadeType.PERSIST)
-//    @JsonIgnoreProperties("reserva")
-//    private HorarioDia horario;
-
-//    @ManyToMany(cascade = CascadeType.PERSIST)
-//    private List<Time> timesCadastrados;
-
-//    @ManyToMany(cascade = CascadeType.PERSIST)
-//    private List<Usuario> usuariosCadastrados;
-
+    // 💥 MUDANÇA: A reserva aponta para o CAMPO específico, não mais para a Quadra
     @ManyToOne
-    private Quadra quadra;
+    @JoinColumn(name = "campo_id", nullable = false)
+    private Campo campo;
+
+    // Quem fez a reserva
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    public Reserva() {}
 }
