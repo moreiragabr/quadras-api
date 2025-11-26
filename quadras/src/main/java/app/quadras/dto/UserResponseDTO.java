@@ -1,6 +1,9 @@
 package app.quadras.dto;
 
+import app.quadras.entity.Reserva;
 import app.quadras.entity.Usuario;
+
+import java.util.List;
 
 /**
  * DTO (Data Transfer Object) usado para retornar dados do usuário autenticado

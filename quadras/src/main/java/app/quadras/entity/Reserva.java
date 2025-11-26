@@ -1,5 +1,7 @@
 package app.quadras.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,14 +19,13 @@ public class Reserva {
     @Column(nullable = false)
     private LocalDateTime inicioReserva;
 
-    // 💥 MUDANÇA: A reserva aponta para o CAMPO específico, não mais para a Quadra
     @ManyToOne
     @JoinColumn(name = "campo_id", nullable = false)
+    @JsonIgnoreProperties("quadra")
     private Campo campo;
 
-    // Quem fez a reserva
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonBackReference("usuario-reserva") // Deve corresponder ao valor em Usuario.reservas
     private Usuario usuario;
 
     public Reserva() {}

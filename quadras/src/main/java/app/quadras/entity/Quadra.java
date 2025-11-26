@@ -1,6 +1,7 @@
 package app.quadras.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -53,6 +54,7 @@ public class Quadra {
     private List<HorarioDia> horariosDeFuncionamento;
 
     @OneToMany(mappedBy = "quadra", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
+    @JsonManagedReference("quadra-campo")
     private List<Campo> campos;
 
     @ManyToOne

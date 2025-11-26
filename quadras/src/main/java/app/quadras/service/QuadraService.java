@@ -50,6 +50,12 @@ public class QuadraService {
         return quadra.getCampos();
     }
 
+    public Quadra findQuadraByCampoId(Long idCampo) {
+        return quadraRepository.findByIdWithQuadra(idCampo)
+                .map(Campo::getQuadra)
+                .orElse(null);
+    }
+
     @Transactional
     public Quadra update(Long id, Quadra quadraDetails) {
         Quadra quadra = findById(id);

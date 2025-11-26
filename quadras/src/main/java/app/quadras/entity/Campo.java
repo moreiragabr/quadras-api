@@ -1,5 +1,6 @@
 package app.quadras.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -23,6 +24,6 @@ public class Campo {
     private String nome;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonIgnoreProperties("campos")
+    @JsonBackReference("quadra-campo")
     private Quadra quadra;
 }

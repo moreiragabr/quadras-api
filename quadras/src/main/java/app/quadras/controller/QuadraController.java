@@ -28,6 +28,16 @@ public class QuadraController {
         return ResponseEntity.ok(quadraService.findById(id));
     }
 
+    @GetMapping("/campo/{id}")
+    public ResponseEntity<Quadra> getQuadraByCampoId(@PathVariable Long id) {
+        Quadra quadra = quadraService.findQuadraByCampoId(id);
+        if (quadra != null) {
+            return ResponseEntity.ok(quadra);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Quadra> create(@RequestBody Quadra quadra) {
         return new ResponseEntity<>(quadraService.save(quadra), HttpStatus.CREATED);

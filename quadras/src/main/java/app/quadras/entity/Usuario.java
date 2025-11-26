@@ -2,6 +2,7 @@ package app.quadras.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,7 +44,7 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
-    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"proprietario", "presidente", "jogadores"})
     private List<Quadra> quadras;
 
@@ -59,14 +60,14 @@ public class Usuario implements UserDetails {
 //    @JsonIgnoreProperties({"presidente", "jogadores"})
 //    private List<Time> times;
 
-//    @ManyToMany()
-//    @JoinTable(name = "usuario_reservas")
-//    private List<Reserva> reservas;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JsonManagedReference("usuario-reserva") // Usa um valor para ligar com o 'BackReference'
+    private List<Reserva> reservas;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Lógica: Se for ADMIN, tem permissão de ADMIN e de USER. Se não, só de USER.
-        if(this.tipoUsuario == TipoUsuario.ADMIN) {
+        if (this.tipoUsuario == TipoUsuario.ADMIN) {
             return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_USER")

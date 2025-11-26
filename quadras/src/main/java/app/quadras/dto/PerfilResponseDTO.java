@@ -1,6 +1,7 @@
 package app.quadras.dto;
 
 import app.quadras.entity.Quadra;
+import app.quadras.entity.Reserva;
 import app.quadras.entity.TipoUsuario;
 import app.quadras.entity.Usuario;
 
@@ -22,6 +23,7 @@ public record PerfilResponseDTO(
         String email,
         TipoUsuario tipoUsuario,
         List<Quadra> quadras,
+        List<Reserva> reservas,
         String cidade,
         String bairro,
         String estado,
@@ -45,6 +47,7 @@ public record PerfilResponseDTO(
                 usuario.getEmail(),
                 usuario.getTipoUsuario(),
                 usuario.getQuadras(),
+                usuario.getReservas(),
                 usuario.getCidade(),
                 usuario.getBairro(),
                 usuario.getEstado(),
