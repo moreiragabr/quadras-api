@@ -33,12 +33,12 @@ public class QuadraService {
 
         if (quadra.getCampos() != null) {
             for (Campo campo : quadra.getCampos()) {
-                campo.setQuadra(quadra); // Define a referência de volta
+                campo.setQuadra(quadra);
             }
         }
         if (quadra.getHorariosDeFuncionamento() != null) {
             for (HorarioDia horarioDia : quadra.getHorariosDeFuncionamento()) {
-                horarioDia.setQuadra(quadra); // Define a referência de volta
+                horarioDia.setQuadra(quadra);
             }
         }
         return quadraRepository.save(quadra);

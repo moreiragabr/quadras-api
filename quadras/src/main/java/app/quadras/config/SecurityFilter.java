@@ -34,11 +34,9 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (login != null && !login.isEmpty()) {
                 Optional<Usuario> userOpt = usuarioRepository.findByEmail(login);
 
-                // CORREÇÃO: Verifica se o Optional contém um usuário
                 if (userOpt.isPresent()) {
-                    Usuario user = userOpt.get(); // Extrai o usuário do Optional
+                    Usuario user = userOpt.get();
 
-                    // Cria o objeto de autenticação usando o UserDetails (Usuario) e suas Roles
                     var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
