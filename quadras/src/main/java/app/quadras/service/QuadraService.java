@@ -1,0 +1,142 @@
+package app.quadras.service;
+
+import app.quadras.entity.Campo;
+import app.quadras.entity.HorarioDia;
+import app.quadras.entity.Quadra;
+import app.quadras.repository.QuadraRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class QuadraService {
+
+    @Autowired
+    private QuadraRepository quadraRepository;
+
+    @Transactional(readOnly = true)
+    public List<Quadra> findAll() {
+        return quadraRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Quadra findById(Long id) {
+        return quadraRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Quadra não encontrada com o id: " + id));
+    }
+
+    @Transactional
+    public Quadra save(Quadra quadra) {
+
+        if (quadra.getCampos() != null) {
+            for (Campo campo : quadra.getCampos()) {
+                campo.setQuadra(quadra);
+            }
+        }
+        if (quadra.getHorariosDeFuncionamento() != null) {
+            for (HorarioDia horarioDia : quadra.getHorariosDeFuncionamento()) {
+                horarioDia.setQuadra(quadra);
+            }
+        }
+        return quadraRepository.save(quadra);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Campo> getCamposByQuadraId(Long quadraId) {
+        Quadra quadra = findById(quadraId);
+        return quadra.getCampos();
+    }
+
+    public Quadra findQuadraByCampoId(Long idCampo) {
+        return quadraRepository.findByIdWithQuadra(idCampo)
+                .map(Campo::getQuadra)
+                .orElse(null);
+    }
+
+    @Transactional
+    public Quadra update(Long id, Quadra quadraDetails) {
+        Quadra quadra = findById(id);
+
+        if (quadraDetails.getNome() != null && !quadraDetails.getNome().isBlank()) {
+            quadra.setNome(quadraDetails.getNome());
+        }
+        if (quadraDetails.getValorHora() != null) {
+            quadra.setValorHora(quadraDetails.getValorHora());
+        }
+//        if (quadraDetails.getPartidaGravavel() != null) {
+//            quadra.setPartidaGravavel(quadraDetails.getPartidaGravavel());
+//        }
+        if (quadraDetails.getDescricao() != null && !quadraDetails.getDescricao().isBlank()) {
+            quadra.setDescricao(quadraDetails.getDescricao());
+        }
+        if (quadraDetails.getBairro() != null && !quadraDetails.getBairro().isBlank()) {
+            quadra.setBairro(quadraDetails.getBairro());
+        }
+        if (quadraDetails.getCidade() != null && !quadraDetails.getCidade().isBlank()) {
+            quadra.setCidade(quadraDetails.getCidade());
+        }
+        if (quadraDetails.getEstado() != null && !quadraDetails.getEstado().isBlank()) {
+            quadra.setEstado(quadraDetails.getEstado());
+        }
+        if (quadraDetails.getNumeroCasa() != null && !quadraDetails.getNumeroCasa().isBlank()) {
+            quadra.setNumeroCasa(quadraDetails.getNumeroCasa());
+        }
+        if (quadraDetails.getLat() != null && !quadraDetails.getLat().isBlank()) {
+            quadra.setLat(quadraDetails.getLat());
+        }
+        if (quadraDetails.getLot() != null && !quadraDetails.getLot().isBlank()) {
+            quadra.setLot(quadraDetails.getLot());
+        }
+        if (quadraDetails.getCep() != null && !quadraDetails.getCep().isBlank()) {
+            quadra.setCep(quadraDetails.getCep());
+        }
+        if (quadraDetails.getRua() != null && !quadraDetails.getRua().isBlank()) {
+            quadra.setRua(quadraDetails.getRua());
+        }
+        if (quadraDetails.getTipoQuadra() != null) {
+            quadra.setTipoQuadra(quadraDetails.getTipoQuadra());
+        }
+        if (quadraDetails.getHaveBar() != null) {
+            quadra.setHaveBar(quadraDetails.getHaveBar());
+        }
+        if (quadraDetails.getHaveWifi() != null) {
+            quadra.setHaveWifi(quadraDetails.getHaveWifi());
+        }
+        if (quadraDetails.getHaveEscolinha() != null) {
+            quadra.setHaveEscolinha(quadraDetails.getHaveEscolinha());
+        }
+        if (quadraDetails.getHaveLanchonete() != null) {
+            quadra.setHaveLanchonete(quadraDetails.getHaveLanchonete());
+        }
+        if (quadraDetails.getHaveEstacionamento() != null) {
+            quadra.setHaveEstacionamento(quadraDetails.getHaveEstacionamento());
+        }
+        if (quadraDetails.getHaveVestiario() != null) {
+            quadra.setHaveVestiario(quadraDetails.getHaveVestiario());
+        }
+        if (quadraDetails.getHaveChurrasqueira() != null) {
+            quadra.setHaveChurrasqueira(quadraDetails.getHaveChurrasqueira());
+        }
+        if (quadraDetails.getHaveTv() != null) {
+            quadra.setHaveTv(quadraDetails.getHaveTv());
+        }
+        if (quadraDetails.getHaveOutros() != null) {
+            quadra.setHaveOutros(quadraDetails.getHaveOutros());
+        }
+        if (quadraDetails.getOutrosDesc() != null && quadraDetails.getOutrosDesc().isBlank()) {
+            quadra.setOutrosDesc(quadraDetails.getOutrosDesc());
+        }
+        return quadraRepository.save(quadra);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!quadraRepository.existsById(id)) {
+            throw new EntityNotFoundException("Quadra não encontrada com o id: " + id);
+        }
+        quadraRepository.deleteById(id);
+    }
+}
