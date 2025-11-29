@@ -26,7 +26,7 @@ public class UsuarioController {
         var result = usuarioService.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+//
 //    @GetMapping("/findById/{id}")
 //    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
 //        var result = usuarioService.findById(id);
@@ -40,23 +40,23 @@ public class UsuarioController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @PostMapping("/save")
-//    public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
-//        var result = usuarioService.save(usuario);
-//        return new ResponseEntity<>(result, HttpStatus.CREATED);
-//    }
+   @PostMapping("/save")
+    public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
+       var result = usuarioService.save(usuario);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+   }
 
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<Void> delete(@PathVariable Long id) {
-//        usuarioService.delete(id);
-//        return new ResponseEntity<>(null, HttpStatus.valueOf(204));
-//    }
-//
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
-//        var result = usuarioService.update(id, usuario);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+   @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+       usuarioService.delete(id);
+       return new ResponseEntity<>(null, HttpStatus.valueOf(204));
+   }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
+        var result = usuarioService.update(id, usuario);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 //    @PutMapping("/adicionarTimeProprietario")
 //    public ResponseEntity<Usuario> adicionarTimesProprietarios(@RequestParam Long idUsuario, @RequestParam Long idTime) {
@@ -83,7 +83,10 @@ public class UsuarioController {
 //    }
 
     @PutMapping("/adicionarQuadraProprietario")
-    public ResponseEntity<Usuario> adicionarQuadraProprietario(@RequestParam Long idUsuario, @RequestParam Long idQuadra){
+    public ResponseEntity<Usuario> adicionarQuadraProprietario(
+            @RequestParam Long idUsuario,
+            @RequestParam Long idQuadra
+   ){
         var result = usuarioService.adicionarQuadraProprietario(idUsuario, idQuadra);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

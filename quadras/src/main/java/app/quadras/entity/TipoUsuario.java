@@ -2,7 +2,8 @@ package app.quadras.entity;
 
 public enum TipoUsuario {
     ADMIN("admin"),
-    USER("user");
+    USER("user"),
+    COMUM("user");
 
     private String role;
 

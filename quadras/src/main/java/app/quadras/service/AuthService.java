@@ -2,6 +2,7 @@ package app.quadras.service;
 
 import app.quadras.dto.LoginResponseDTO;
 import app.quadras.dto.RegistroResponseDTO;
+import app.quadras.entity.TipoUsuario;
 import app.quadras.entity.Usuario;
 import app.quadras.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,18 +19,18 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-
+    // LOGIN
     public Optional<LoginResponseDTO> loginAndGenerateToken(String email, String senha) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
 
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
 
-
             if (passwordEncoder.matches(senha, usuario.getSenha())) {
 
                 String token = tokenService.generateToken(usuario);
 
+                // Pega a role do usuário
                 String role = usuario.getAuthorities().stream()
                         .map(auth -> auth.getAuthority().replace("ROLE_", ""))
                         .findFirst()
@@ -50,11 +51,32 @@ public class AuthService {
         return Optional.empty();
     }
 
+    // REGISTRO
     public RegistroResponseDTO registrar(Usuario usuario) {
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        Usuario usuarioSalvo =usuarioRepository.save(usuario);
 
-        RegistroResponseDTO responseDTO = new RegistroResponseDTO(
+        // Normaliza o TipoUsuario
+        if (usuario.getTipoUsuario() != null) {
+            switch (usuario.getTipoUsuario().name().toUpperCase()) {
+                case "ADMIN":
+                    usuario.setTipoUsuario(TipoUsuario.ADMIN);
+                    break;
+                case "COMUM": // Caso algum JSON envie COMUM
+                case "USER":
+                default:
+                    usuario.setTipoUsuario(TipoUsuario.USER);
+            }
+        } else {
+            usuario.setTipoUsuario(TipoUsuario.USER); // default
+        }
+
+        // Criptografa senha
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+
+        // Salva usuário no banco
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+
+        // Retorna DTO
+        return new RegistroResponseDTO(
                 usuarioSalvo.getId(),
                 usuarioSalvo.getNome(),
                 usuarioSalvo.getEmail(),
@@ -66,7 +88,5 @@ public class AuthService {
                 usuarioSalvo.getNumeroCasa(),
                 usuarioSalvo.getCep()
         );
-
-        return responseDTO;
     }
 }

@@ -32,14 +32,26 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
+
+                        // Rotas liberadas de autenticação
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/registro").permitAll()
+
+                        // Quadras sempre liberadas
                         .requestMatchers(HttpMethod.GET, "/api/quadras").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/quadras/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/usuario").hasRole("ADMIN")
+
+                        // Usuário - PERMISSÕES CORRETAS
+                        .requestMatchers(HttpMethod.GET, "/api/usuario/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/usuario/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/usuario/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/usuario/**").hasRole("ADMIN")
+
+                        // Qualquer outra rota precisa estar autenticado
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -61,5 +73,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

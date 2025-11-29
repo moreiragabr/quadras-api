@@ -31,7 +31,14 @@ public class UsuarioService {
     public PerfilResponseDTO findById(Long id) {
         return usuarioRepository.findById(id)
                 .map(PerfilResponseDTO::fromUsuario)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + id));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Usuário não encontrado com ID: " + id));
+    }
+
+    public Usuario findEntityById(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Usuário não encontrado com ID: " + id));
     }
 
     public Optional<Usuario> findByEmail(String email) {
@@ -39,29 +46,31 @@ public class UsuarioService {
         return usuario;
     }
 
-//    public Usuario save(Usuario usuario) {
-//        if (usuario.getTipoUsuario() == null) {
-//            usuario.setTipoUsuario(TipoUsuario.COMUM);
-//            return usuarioRepository.save(usuario);
-//        }
-//        return usuarioRepository.save(usuario);
-//    }
+    public Usuario save(Usuario usuario) {
+        if (usuario.getTipoUsuario() == null) {
+            usuario.setTipoUsuario(TipoUsuario.USER);
+            return usuarioRepository.save(usuario);
+        }
+        return usuarioRepository.save(usuario);
+    }
 
-//    public void delete(Long id) {
-//        Usuario usuario = findById(id);
-//        usuarioRepository.delete(usuario);
-//    }
-//
-//    public Usuario update(Long id, Usuario usuario) {
-//        Usuario update = findById(id);
-//        if (usuario.getNome() != null && !usuario.getNome().isBlank()) {
-//            update.setNome(usuario.getNome());
-//        }
-//        if (usuario.getEmail() != null && !usuario.getEmail().isBlank()) {
-//            update.setEmail(usuario.getEmail());
-//        }
-//        return usuarioRepository.save(update);
-//    }
+    public void delete(Long id) {
+        Usuario usuario = findEntityById(id);
+        usuarioRepository.delete(usuario);
+    }
+
+    public Usuario update(Long id, Usuario usuario) {
+        Usuario update = findEntityById(id);
+
+        if (usuario.getNome() != null && !usuario.getNome().isBlank()) {
+            update.setNome(usuario.getNome());
+        }
+        if (usuario.getEmail() != null && !usuario.getEmail().isBlank()) {
+            update.setEmail(usuario.getEmail());
+        }
+
+        return usuarioRepository.save(update);
+    }
 
 //    @Transactional
 //    public Usuario adicionarTimesProprietarios(Long idTime, Long idUsuario) {
@@ -99,12 +108,17 @@ public class UsuarioService {
 //        return jogador;
 //    }
 
+    // --------------------------------------------
+    // ADICIONAR QUADRA AO PROPRIETARIO
+    // --------------------------------------------
     @Transactional
     public Usuario adicionarQuadraProprietario(Long idUsuario, Long idQuadra) {
-        Usuario proprietario = usuarioRepository.findById(idUsuario).orElseThrow(EntityNotFoundException::new);
+        Usuario proprietario = findEntityById(idUsuario);
         Quadra quadra = quadraRepository.findById(idQuadra).orElseThrow(EntityNotFoundException::new);
+
         proprietario.getQuadras().add(quadra);
         quadra.setProprietario(proprietario);
+
         return proprietario;
     }
 }
