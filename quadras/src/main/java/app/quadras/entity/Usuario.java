@@ -66,15 +66,19 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Lógica: Se for ADMIN, tem permissão de ADMIN e de USER. Se não, só de USER.
-        if (this.tipoUsuario == TipoUsuario.ADMIN) {
-            return List.of(
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_USER")
+        if (this.tipoUsuario == TipoUsuario.SYSJEGG_ADMIN) {
+
+            var teste2 = List.of(
+                    new SimpleGrantedAuthority("ROLE_SYS-JEGG_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_SYS-JEGG_USER")
             );
+            return teste2;
         } else {
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+//            return List.of(new SimpleGrantedAuthority("ROLE_SYS-JEGG_USER"));
+            var teste = List.of(new SimpleGrantedAuthority("ROLE_SYS-JEGG_USER"));
+            return teste;
         }
+
     }
 
     @Override

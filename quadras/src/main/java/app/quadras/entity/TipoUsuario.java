@@ -1,8 +1,8 @@
 package app.quadras.entity;
 
 public enum TipoUsuario {
-    ADMIN("admin"),
-    USER("user");
+    SYSJEGG_ADMIN("sys-jegg_admin"),
+    SYSJEGG_USER("sys-jegg_user");
 
     private String role;
 
