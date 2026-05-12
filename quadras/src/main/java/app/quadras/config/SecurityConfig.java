@@ -57,18 +57,14 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://3.20.18.131",
                 "http://3.20.18.131:8080",
-                "http://localhost:4200"
+                "http://quadras.lab.local:4200",
+                "https://quadras.lab.local:4200"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }
