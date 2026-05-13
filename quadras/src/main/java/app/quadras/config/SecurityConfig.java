@@ -58,8 +58,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://3.20.18.131",
                 "http://3.20.18.131:8080",
-                "http://quadras.lab.local:4200",
-                "https://quadras.lab.local:4200",
+                "http://quadras.lab.local",
+                "https://quadras.lab.local",
                 "http://localhost:4200"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

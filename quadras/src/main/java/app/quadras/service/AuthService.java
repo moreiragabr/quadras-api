@@ -27,13 +27,10 @@ public class AuthService {
             usuario.setTipoUsuario(TipoUsuario.SYSJEGG_USER);
         }
 
-        String plainPassword = usuario.getSenha();
-
-        // 1. Cria no Keycloak com a senha em texto puro (Keycloak cuida do hash dele)
+        // 1. Criar no Keycloak primeiro (ele precisa da senha em texto puro)
         keycloakAdminService.createUser(usuario);
 
-        // 2. Salva no Banco Local com a senha criptografada
-        usuario.setSenha(passwordEncoder.encode(plainPassword));
+        // 2. Salvar no Banco Local (a senha será ignorada pelo Hibernate devido ao @Column(insertable=false))
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
         return new RegistroResponseDTO(

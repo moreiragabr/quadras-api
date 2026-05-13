@@ -32,6 +32,7 @@ public class Usuario implements UserDetails {
 
     private String email;
 
+    @Column(insertable = false, updatable = false)
     private String senha;
 
     private String cidade;
