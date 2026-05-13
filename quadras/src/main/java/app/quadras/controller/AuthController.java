@@ -37,6 +37,7 @@ public class AuthController {
 
     private final RestTemplate restTemplate;
     private final AuthService authService;
+    private final app.quadras.repository.UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
@@ -44,11 +45,14 @@ public class AuthController {
                 credentials.get("username"),
                 credentials.get("email")
         );
-        String password = credentials.get("password");
+        String password = firstNonBlank(
+                credentials.get("password"),
+                credentials.get("senha")
+        );
 
         if (username == null || password == null || password.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of(
-                    "error", "Informe username (ou email) e password"));
+                    "error", "Informe username (ou email) e password (ou senha)"));
         }
 
         String tokenUrl = issuerUri.replaceAll("/+$", "") + "/protocol/openid-connect/token";
@@ -72,6 +76,15 @@ public class AuthController {
             if (tokenBody != null && tokenBody.containsKey("access_token")) {
                 Map<String, Object> envelope = new HashMap<>();
                 envelope.put("token", tokenBody.get("access_token"));
+                
+                // Buscar dados do usuário no banco local para o frontend
+                usuarioRepository.findByEmail(username.trim()).ifPresent(u -> {
+                    envelope.put("id", u.getId());
+                    envelope.put("nome", u.getNome());
+                    envelope.put("email", u.getEmail());
+                    envelope.put("role", u.getTipoUsuario() != null ? u.getTipoUsuario().name() : "USER");
+                });
+
                 if (tokenBody.containsKey("refresh_token")) {
                     envelope.put("refresh_token", tokenBody.get("refresh_token"));
                 }
@@ -83,6 +96,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Token não retornado pelo Keycloak"));
         } catch (Exception e) {
+            log.error("Erro no login: ", e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                     "error", "Credenciais inválidas ou cliente Keycloak não autorizado ao fluxo password"));
         }
