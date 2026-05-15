@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/campo")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class CampoController {
 
     private final CampoService campoService;

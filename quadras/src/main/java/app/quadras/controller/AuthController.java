@@ -23,7 +23,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AuthController {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")

@@ -32,6 +32,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives("default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none';"))
+                        .frameOptions(frame -> frame.deny())
+                )
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -55,16 +60,18 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        // Defina aqui apenas os endereços do seu FRONTEND
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://3.20.18.131",
-                "http://3.20.18.131:8080",
-                "http://quadras.lab.local",
                 "https://quadras.lab.local",
                 "http://localhost:4200"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type"));
+        // É mais seguro listar os headers ou usar "*" se a origem já estiver restrita
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+        configuration.setAllowCredentials(true);
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // FIX: Aplicar a todos os endpoints da API
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
