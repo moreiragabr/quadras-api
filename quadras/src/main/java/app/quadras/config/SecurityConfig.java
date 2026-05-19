@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/registro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/quadras").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/quadras/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/usuario").hasAuthority("ROLE_SYS-JEGG_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/usuario").hasAuthority("ROLE_SYSJEGG_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

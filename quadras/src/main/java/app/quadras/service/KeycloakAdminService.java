@@ -50,7 +50,8 @@ public class KeycloakAdminService {
         userPayload.put("enabled", true);
         userPayload.put("emailVerified", true);
         userPayload.put("firstName", usuario.getNome());
-        userPayload.put("lastName", usuario.getTipoUsuario() != null ? usuario.getTipoUsuario().getRole() : "user");
+        // Removido o envio da role no lastName para manter os dados limpos
+        userPayload.put("lastName", ""); 
 
         Map<String, Object> credential = new HashMap<>();
         credential.put("type", "password");

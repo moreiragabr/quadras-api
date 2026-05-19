@@ -69,15 +69,14 @@ public class Usuario implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.tipoUsuario == TipoUsuario.SYSJEGG_ADMIN) {
 
-            var teste2 = List.of(
-                    new SimpleGrantedAuthority("ROLE_SYS-JEGG_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_SYS-JEGG_USER")
+            var authorities = List.of(
+                    new SimpleGrantedAuthority("ROLE_SYSJEGG_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_SYSJEGG_USER")
             );
-            return teste2;
+            return authorities;
         } else {
-//            return List.of(new SimpleGrantedAuthority("ROLE_SYS-JEGG_USER"));
-            var teste = List.of(new SimpleGrantedAuthority("ROLE_SYS-JEGG_USER"));
-            return teste;
+            var authorities = List.of(new SimpleGrantedAuthority("ROLE_SYSJEGG_USER"));
+            return authorities;
         }
 
     }

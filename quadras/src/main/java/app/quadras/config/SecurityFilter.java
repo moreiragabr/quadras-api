@@ -34,7 +34,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
                 if (userOpt.isPresent()) {
                     Usuario user = userOpt.get();
-                    var userAuthentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    // Usar as autoridades extraídas do JWT em vez das do banco local
+                    var userAuthentication = new UsernamePasswordAuthenticationToken(user, null, jwtAuth.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(userAuthentication);
                 }
             }

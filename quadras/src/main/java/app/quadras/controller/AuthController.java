@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import app.quadras.entity.TipoUsuario;
 
 @Slf4j
 @RestController
@@ -73,15 +75,38 @@ public class AuthController {
             ResponseEntity<Map> response = restTemplate.postForEntity(tokenUrl, request, Map.class);
             Map<String, Object> tokenBody = response.getBody();
             if (tokenBody != null && tokenBody.containsKey("access_token")) {
+                String accessToken = (String) tokenBody.get("access_token");
                 Map<String, Object> envelope = new HashMap<>();
-                envelope.put("token", tokenBody.get("access_token"));
+                envelope.put("token", accessToken);
                 
                 // Buscar dados do usuário no banco local para o frontend
                 usuarioRepository.findByEmail(username.trim()).ifPresent(u -> {
                     envelope.put("id", u.getId());
                     envelope.put("nome", u.getNome());
                     envelope.put("email", u.getEmail());
-                    envelope.put("role", u.getTipoUsuario() != null ? u.getTipoUsuario().name() : "USER");
+                    
+                    // Extrair a role diretamente do JWT do Keycloak
+                    var decodedJWT = com.auth0.jwt.JWT.decode(accessToken);
+                    var realmAccess = decodedJWT.getClaim("realm_access").asMap();
+                    @SuppressWarnings("unchecked")
+                    var roles = (List<String>) (realmAccess != null ? realmAccess.get("roles") : null);
+                    
+                    String role = "SYSJEGG_USER";
+                    if (roles != null) {
+                        if (roles.contains("sys-jegg_admin")) {
+                            role = "SYSJEGG_ADMIN";
+                        } else if (roles.contains("sys-jegg_user")) {
+                            role = "SYSJEGG_USER";
+                        }
+                    }
+                    
+                    envelope.put("role", role);
+                    
+                    // Sincroniza a role no banco local para consistência
+                    if (u.getTipoUsuario() == null || !u.getTipoUsuario().name().equals(role)) {
+                        u.setTipoUsuario(TipoUsuario.valueOf(role));
+                        usuarioRepository.save(u);
+                    }
                 });
 
                 if (tokenBody.containsKey("refresh_token")) {
@@ -94,10 +119,15 @@ public class AuthController {
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Token não retornado pelo Keycloak"));
-        } catch (Exception e) {
-            log.error("Erro no login: ", e);
+        } catch (org.springframework.web.client.HttpClientErrorException e) {
+            log.error("Erro de autenticação no Keycloak: Status {}, Resposta {}", e.getStatusCode(), e.getResponseBodyAsString());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
-                    "error", "Credenciais inválidas ou cliente Keycloak não autorizado ao fluxo password"));
+                    "error", "Credenciais inválidas ou cliente Keycloak não autorizado ao fluxo password",
+                    "details", e.getResponseBodyAsString()));
+        } catch (Exception e) {
+            log.error("Erro inesperado no login: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "error", "Erro interno ao processar login"));
         }
     }
 

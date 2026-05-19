@@ -62,9 +62,13 @@ public class KeycloakConfig {
             if (realmAccess != null && realmAccess.containsKey("roles")) {
                 @SuppressWarnings("unchecked")
                 List<String> realmRoles = (List<String>) realmAccess.get("roles");
-                authorities.addAll(realmRoles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
-                        .collect(Collectors.toList()));
+                for (String role : realmRoles) {
+                    if ("sys-jegg_admin".equalsIgnoreCase(role)) {
+                        authorities.add(new SimpleGrantedAuthority("ROLE_SYSJEGG_ADMIN"));
+                    } else if ("sys-jegg_user".equalsIgnoreCase(role)) {
+                        authorities.add(new SimpleGrantedAuthority("ROLE_SYSJEGG_USER"));
+                    }
+                }
             }
 
             @SuppressWarnings("unchecked")
@@ -75,14 +79,18 @@ public class KeycloakConfig {
                 if (clientAccess != null && clientAccess.containsKey("roles")) {
                     @SuppressWarnings("unchecked")
                     List<String> clientRoles = (List<String>) clientAccess.get("roles");
-                    authorities.addAll(clientRoles.stream()
-                            .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
-                            .collect(Collectors.toList()));
+                    for (String role : clientRoles) {
+                        if ("sys-jegg_admin".equalsIgnoreCase(role)) {
+                            authorities.add(new SimpleGrantedAuthority("ROLE_SYSJEGG_ADMIN"));
+                        } else if ("sys-jegg_user".equalsIgnoreCase(role)) {
+                            authorities.add(new SimpleGrantedAuthority("ROLE_SYSJEGG_USER"));
+                        }
+                    }
                 }
             }
 
             if (authorities.isEmpty()) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_SYS-JEGG_USER"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_SYSJEGG_USER"));
             }
 
             return authorities;
