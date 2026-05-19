@@ -90,13 +90,19 @@ public class KeycloakAdminService {
 
         String roleName = tipoUsuario != null ? tipoUsuario.getRole() : "sys-jegg_user";
 
+        Map<String, Object> role = getRealmRoleByName(roleName, adminToken);
+        if (role == null) {
+            log.warn("Role '{}' nao encontrada no realm '{}'. Verifique se ela existe como Realm Role.", roleName, realm);
+            return;
+        }
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(adminToken);
 
         String roleUrl = keycloakServerUrl + "/admin/realms/" + realm + "/users/" + userId + "/role-mappings/realm";
 
-        List<Map<String, Object>> rolePayload = Collections.singletonList(Map.of("name", roleName));
+        List<Map<String, Object>> rolePayload = Collections.singletonList(role);
 
         HttpEntity<List<Map<String, Object>>> request = new HttpEntity<>(rolePayload, headers);
 
@@ -109,6 +115,23 @@ public class KeycloakAdminService {
             log.warn("A role '{}' nao foi encontrada no Keycloak. Verifique se ela existe no realm '{}' e se e uma 'Realm Role'.", roleName, realm);
         } catch (Exception e) {
             log.warn("Falha ao atribuir role " + roleName + " ao usuario " + email + ": " + e.getMessage());
+        }
+    }
+
+    private Map<String, Object> getRealmRoleByName(String roleName, String adminToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+
+        String roleUrl = keycloakServerUrl + "/admin/realms/" + realm + "/roles/" + roleName;
+
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.exchange(roleUrl, HttpMethod.GET, request, Map.class);
+            return response.getBody();
+        } catch (HttpClientErrorException.NotFound e) {
+            log.warn("Role '{}' nao encontrada no realm '{}'", roleName, realm);
+            return null;
         }
     }
 

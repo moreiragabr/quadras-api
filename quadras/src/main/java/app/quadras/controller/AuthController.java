@@ -79,34 +79,54 @@ public class AuthController {
                 Map<String, Object> envelope = new HashMap<>();
                 envelope.put("token", accessToken);
                 
-                // Buscar dados do usuário no banco local para o frontend
-                usuarioRepository.findByEmail(username.trim()).ifPresent(u -> {
-                    envelope.put("id", u.getId());
-                    envelope.put("nome", u.getNome());
-                    envelope.put("email", u.getEmail());
-                    
-                    // Extrair a role diretamente do JWT do Keycloak
-                    var decodedJWT = com.auth0.jwt.JWT.decode(accessToken);
-                    var realmAccess = decodedJWT.getClaim("realm_access").asMap();
-                    @SuppressWarnings("unchecked")
-                    var roles = (List<String>) (realmAccess != null ? realmAccess.get("roles") : null);
-                    
-                    String role = "SYSJEGG_USER";
-                    if (roles != null) {
-                        if (roles.contains("sys-jegg_admin")) {
-                            role = "SYSJEGG_ADMIN";
-                        } else if (roles.contains("sys-jegg_user")) {
-                            role = "SYSJEGG_USER";
-                        }
+                // Extrair dados diretamente do JWT do Keycloak
+                var decodedJWT = com.auth0.jwt.JWT.decode(accessToken);
+                String emailExtracted = decodedJWT.getClaim("email").asString();
+                if (emailExtracted == null) emailExtracted = decodedJWT.getClaim("preferred_username").asString();
+                final String email = emailExtracted;
+                
+                String nomeExtracted = decodedJWT.getClaim("name").asString();
+                final String nome = nomeExtracted != null ? nomeExtracted : email;
+                
+                var realmAccess = decodedJWT.getClaim("realm_access").asMap();
+                @SuppressWarnings("unchecked")
+                var rolesList = (List<String>) (realmAccess != null ? realmAccess.get("roles") : null);
+                
+                String roleMapped = "SYSJEGG_USER";
+                if (rolesList != null) {
+                    if (rolesList.contains("sys-jegg_admin")) {
+                        roleMapped = "SYSJEGG_ADMIN";
+                    } else if (rolesList.contains("sys-jegg_user")) {
+                        roleMapped = "SYSJEGG_USER";
                     }
-                    
-                    envelope.put("role", role);
-                    
+                }
+                final String role = roleMapped;
+
+                envelope.put("email", email);
+                envelope.put("nome", nome);
+                envelope.put("role", role);
+
+                // Sincroniza/Busca no banco local
+                usuarioRepository.findByEmail(email).ifPresentOrElse(u -> {
+                    envelope.put("id", u.getId());
                     // Sincroniza a role no banco local para consistência
                     if (u.getTipoUsuario() == null || !u.getTipoUsuario().name().equals(role)) {
                         u.setTipoUsuario(TipoUsuario.valueOf(role));
                         usuarioRepository.save(u);
                     }
+                }, () -> {
+                    log.info("Usuário {} autenticado via Keycloak mas não encontrado no banco local. Criando registro...", email);
+                    Usuario novoUsuario = new Usuario();
+                    novoUsuario.setEmail(email);
+                    novoUsuario.setNome(nome);
+                    novoUsuario.setTipoUsuario(TipoUsuario.valueOf(role));
+                    // A senha no banco local não será usada para login via Keycloak, 
+                    // mas salvamos um valor para evitar erros de validação se houver.
+                    novoUsuario.setSenha("KEYCLOAK_AUTH_" + java.util.UUID.randomUUID());
+                    
+                    Usuario salvo = usuarioRepository.save(novoUsuario);
+                    envelope.put("id", salvo.getId());
+                    log.info("Usuário criado com sucesso no banco local. ID: {}", salvo.getId());
                 });
 
                 if (tokenBody.containsKey("refresh_token")) {
@@ -184,13 +204,32 @@ public class AuthController {
     public ResponseEntity<?> getUsuarioAtual() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null && authentication.getPrincipal() instanceof Usuario) {
-            Usuario usuario = (Usuario) authentication.getPrincipal();
-            UserResponseDTO response = UserResponseDTO.fromUsuario(usuario);
-            return ResponseEntity.ok(response);
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Não autenticado"));
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Não autenticado ou token inválido"));
+        // Se o SecurityFilter já converteu para Usuario
+        if (authentication.getPrincipal() instanceof Usuario usuario) {
+            return ResponseEntity.ok(UserResponseDTO.fromUsuario(usuario));
+        }
+        
+        // Se for o principal do JWT puro (caso o usuário não esteja no banco local)
+        if (authentication.getPrincipal() instanceof org.springframework.security.oauth2.jwt.Jwt jwt) {
+            String email = jwt.getClaimAsString("email");
+            if (email == null) email = jwt.getClaimAsString("preferred_username");
+            String nome = jwt.getClaimAsString("name");
+            
+            // Mapeia roles do JWT
+            String role = authentication.getAuthorities().stream()
+                    .map(auth -> auth.getAuthority().replace("ROLE_", ""))
+                    .filter(r -> r.equals("SYSJEGG_ADMIN") || r.equals("SYSJEGG_USER"))
+                    .findFirst()
+                    .orElse("SYSJEGG_USER");
+
+            return ResponseEntity.ok(new UserResponseDTO(null, nome != null ? nome : email, email, role));
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Tipo de principal não suportado"));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
