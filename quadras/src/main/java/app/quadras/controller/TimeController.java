@@ -12,7 +12,6 @@
 //@RestController
 //@RequestMapping("/api/time")
 //@RequiredArgsConstructor
-//@CrossOrigin("*")
 //public class TimeController {
 //
 //    private final TimeService timeService;

@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/usuario")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -44,7 +43,7 @@ public class UsuarioController {
 //    public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
 //        var result = usuarioService.save(usuario);
 //        return new ResponseEntity<>(result, HttpStatus.CREATED);
-//    }
+//
 
 //    @DeleteMapping("/delete/{id}")
 //    public ResponseEntity<Void> delete(@PathVariable Long id) {

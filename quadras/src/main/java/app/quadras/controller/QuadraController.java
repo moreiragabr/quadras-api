@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/quadras")
-@CrossOrigin("*")
 public class QuadraController {
 
     @Autowired

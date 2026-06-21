@@ -12,7 +12,7 @@ public record UserResponseDTO(Long id, String nome, String email, String role) {
         String role = usuario.getAuthorities().stream()
                 .map(auth -> auth.getAuthority().replace("ROLE_", ""))
                 .findFirst()
-                .orElse("USER");
+                .orElse("SYSJEGG_USER");
 
         return new UserResponseDTO(
                 usuario.getId(),

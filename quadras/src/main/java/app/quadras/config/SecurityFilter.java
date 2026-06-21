@@ -2,18 +2,17 @@ package app.quadras.config;
 
 import app.quadras.entity.Usuario;
 import app.quadras.repository.UsuarioRepository;
-import app.quadras.service.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -21,33 +20,27 @@ import java.util.Optional;
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
-    TokenService tokenService;
-    @Autowired
     UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var token = this.recoverToken(request);
-        if (token != null) {
-            var login = tokenService.validateToken(token);
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            if (login != null && !login.isEmpty()) {
-                Optional<Usuario> userOpt = usuarioRepository.findByEmail(login);
+        if (authentication instanceof JwtAuthenticationToken jwtAuth) {
+            String emailOuUsername = jwtAuth.getName();
+
+            if (emailOuUsername != null && !emailOuUsername.isEmpty()) {
+                Optional<Usuario> userOpt = usuarioRepository.findByEmail(emailOuUsername);
 
                 if (userOpt.isPresent()) {
                     Usuario user = userOpt.get();
-
-                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    // Usar as autoridades extraídas do JWT em vez das do banco local
+                    var userAuthentication = new UsernamePasswordAuthenticationToken(user, null, jwtAuth.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(userAuthentication);
                 }
             }
         }
-        filterChain.doFilter(request, response);
-    }
 
-    private String recoverToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        if (authHeader == null) return null;
-        return authHeader.replace("Bearer ", "");
+        filterChain.doFilter(request, response);
     }
 }

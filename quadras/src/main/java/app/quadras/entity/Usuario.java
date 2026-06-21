@@ -32,6 +32,7 @@ public class Usuario implements UserDetails {
 
     private String email;
 
+    @Column(insertable = false, updatable = false)
     private String senha;
 
     private String cidade;
@@ -66,15 +67,18 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Lógica: Se for ADMIN, tem permissão de ADMIN e de USER. Se não, só de USER.
-        if (this.tipoUsuario == TipoUsuario.ADMIN) {
-            return List.of(
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_USER")
+        if (this.tipoUsuario == TipoUsuario.SYSJEGG_ADMIN) {
+
+            var authorities = List.of(
+                    new SimpleGrantedAuthority("ROLE_SYSJEGG_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_SYSJEGG_USER")
             );
+            return authorities;
         } else {
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+            var authorities = List.of(new SimpleGrantedAuthority("ROLE_SYSJEGG_USER"));
+            return authorities;
         }
+
     }
 
     @Override

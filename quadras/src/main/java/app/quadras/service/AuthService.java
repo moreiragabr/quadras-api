@@ -1,60 +1,39 @@
 package app.quadras.service;
 
-import app.quadras.dto.LoginResponseDTO;
 import app.quadras.dto.RegistroResponseDTO;
+import app.quadras.entity.TipoUsuario;
 import app.quadras.entity.Usuario;
 import app.quadras.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
+    private final KeycloakAdminService keycloakAdminService;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
 
-
-    public Optional<LoginResponseDTO> loginAndGenerateToken(String email, String senha) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
-
-        if (usuarioOpt.isPresent()) {
-            Usuario usuario = usuarioOpt.get();
-
-
-            if (passwordEncoder.matches(senha, usuario.getSenha())) {
-
-                String token = tokenService.generateToken(usuario);
-
-                String role = usuario.getAuthorities().stream()
-                        .map(auth -> auth.getAuthority().replace("ROLE_", ""))
-                        .findFirst()
-                        .orElse("USER");
-
-                LoginResponseDTO responseDTO = new LoginResponseDTO(
-                        token,
-                        usuario.getId(),
-                        usuario.getNome(),
-                        usuario.getEmail(),
-                        role
-                );
-
-                return Optional.of(responseDTO);
-            }
+    @Transactional
+    public RegistroResponseDTO registrar(Usuario usuario) {
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new RuntimeException("Email ja cadastrado: " + usuario.getEmail());
         }
 
-        return Optional.empty();
-    }
+        if (usuario.getTipoUsuario() == null) {
+            usuario.setTipoUsuario(TipoUsuario.SYSJEGG_USER);
+        }
 
-    public RegistroResponseDTO registrar(Usuario usuario) {
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        Usuario usuarioSalvo =usuarioRepository.save(usuario);
+        // 1. Criar no Keycloak primeiro (ele precisa da senha em texto puro)
+        keycloakAdminService.createUser(usuario);
 
-        RegistroResponseDTO responseDTO = new RegistroResponseDTO(
+        // 2. Salvar no Banco Local (a senha será ignorada pelo Hibernate devido ao @Column(insertable=false))
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+
+        return new RegistroResponseDTO(
                 usuarioSalvo.getId(),
                 usuarioSalvo.getNome(),
                 usuarioSalvo.getEmail(),
@@ -66,7 +45,5 @@ public class AuthService {
                 usuarioSalvo.getNumeroCasa(),
                 usuarioSalvo.getCep()
         );
-
-        return responseDTO;
     }
 }
